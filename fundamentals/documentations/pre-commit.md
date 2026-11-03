@@ -51,7 +51,7 @@ def calculate_total(price, tax):
 
 ## 3. Set Up `pre-commit` with `uv`
 
-### Step 1: Create a project
+#### Step 1: Create a project
 
 ``` bash
 uv init my-python-project
@@ -61,7 +61,7 @@ git init
 
 Initialize Git only if the repository has not already been initialized.
 
-### Step 2: Install `pre-commit`
+#### Step 2: Install `pre-commit`
 
 For a project-managed development dependency:
 
@@ -79,19 +79,14 @@ uv tool install pre-commit
 pre-commit --version
 ```
 
-  -----------------------------------------------------------------------
-  Approach                            Best suited for
-  ----------------------------------- -----------------------------------
-  `uv add --dev pre-commit`           Team projects with reproducible
-                                      development dependencies
+| Approach | Best suited for |
+|---|---|
+| `uv add --dev pre-commit` | Team projects with reproducible development dependencies |
+| `uv tool install pre-commit` | A separately installed CLI tool |
+| `uvx pre-commit` | Running the tool without a permanent installation |
 
-  `uv tool install pre-commit`        A separately installed CLI tool
 
-  `uvx pre-commit`                    Running the tool without a
-                                      permanent installation
-  -----------------------------------------------------------------------
-
-### Step 3: Create `.pre-commit-config.yaml`
+#### Step 3: Create `.pre-commit-config.yaml`
 
 Create this file in the project root:
 
@@ -121,7 +116,7 @@ repos:
 These revisions are examples. Check compatibility and choose verified
 revisions before adopting them.
 
-### Step 4: Install dependencies and the Git hook
+#### Step 4: Install dependencies and the Git hook
 
 ``` bash
 uv sync --group dev
@@ -131,7 +126,7 @@ uv run pre-commit install
 `uv sync --group dev` synchronizes the project's development
 dependencies. `pre-commit install` installs the Git hook.
 
-### Step 5: Run the checks
+#### Step 5: Run the checks
 
 ``` bash
 uv run pre-commit run --all-files
@@ -160,17 +155,18 @@ developers.
 
 The `hooks` section lists the checks to execute.
 
-  Hook                     Purpose
-  ------------------------ -------------------------------------
-  `trailing-whitespace`    Removes trailing spaces
-  `end-of-file-fixer`      Ensures files end with a newline
-  `check-yaml`             Validates YAML syntax
-  `check-json`             Validates JSON syntax
-  `check-toml`             Validates TOML syntax
-  `check-merge-conflict`   Detects merge-conflict markers
-  `debug-statements`       Detects Python debugging statements
-  `ruff`                   Checks Python linting issues
-  `ruff-format`            Formats Python code
+| Hook | Purpose |
+|---|---|
+| `trailing-whitespace` | Removes trailing spaces |
+| `end-of-file-fixer` | Ensures files end with a newline |
+| `check-yaml` | Validates YAML syntax |
+| `check-json` | Validates JSON syntax |
+| `check-toml` | Validates TOML syntax |
+| `check-merge-conflict` | Detects merge-conflict markers |
+| `debug-statements` | Detects Python debugging statements |
+| `ruff` | Checks Python linting issues |
+| `ruff-format` | Formats Python code |
+
 
 ### `args`
 
@@ -198,24 +194,16 @@ This example selects Python files and excludes files under
 
 ---
 
-## 5. Common Commands
+## 5. Manual Run Commands
 
-  -------------------------------------------------------------------------
-  Command                               Use case
-  ------------------------------------- -----------------------------------
-  `uv run pre-commit --version`         Check the installed version
-
-  `uv run pre-commit install`           Install the Git hook
-
-  `uv run pre-commit run`               Run hooks on staged files
-
-  `uv run pre-commit run --all-files`   Run hooks on all applicable tracked
-                                        files
-
-  `uv run pre-commit autoupdate`        Update configured hook revisions
-
-  `uv run pre-commit uninstall`         Remove the installed Git hook
-  -------------------------------------------------------------------------
+| Command | Use case |
+|---|---|
+| `uv run pre-commit --version` | Check the installed version |
+| `uv run pre-commit install` | Install the Git hook |
+| `uv run pre-commit run` | Run hooks on staged files |
+| `uv run pre-commit run --all-files` | Run hooks on all applicable tracked files |
+| `uv run pre-commit autoupdate` | Update configured hook revisions |
+| `uv run pre-commit uninstall` | Remove the installed Git hook |
 
 ---
 
@@ -301,29 +289,15 @@ and follow organizational dependency and security policies.
 
 ## 9. Complete Workflow Cheat Sheet
 
-  -------------------------------------------------------------------------------------
-  Step                    Command or action                     Purpose
-  ----------------------- ------------------------------------- -----------------------
-  Create project          `uv init my-project`                  Initialize the project
-
-  Add tool                `uv add --dev pre-commit`             Declare the development
-                                                                dependency
-
-  Configure               Create `.pre-commit-config.yaml`      Choose hooks and
-                                                                revisions
-
-  Sync                    `uv sync --group dev`                 Install project
-                                                                development
-                                                                dependencies
-
-  Install hook            `uv run pre-commit install`           Run hooks automatically
-                                                                on commit
-
-  Validate                `uv run pre-commit run --all-files`   Check tracked files
-
-  Commit                  `git add .` then                      Commit after checks
-                          `git commit -m "..."`                 pass
-  -------------------------------------------------------------------------------------
+| Step | Command or action | Purpose |
+|---|---|---|
+| Create project | `uv init my-project` | Initialize the project |
+| Add tool | `uv add --dev pre-commit` | Declare the development dependency |
+| Configure | Create `.pre-commit-config.yaml` | Choose hooks and revisions |
+| Sync | `uv sync --group dev` | Install project development dependencies |
+| Install hook | `uv run pre-commit install` | Run hooks automatically on commit |
+| Validate | `uv run pre-commit run --all-files` | Check tracked files |
+| Commit | `git add .` then `git commit -m "..."` | Commit after checks pass |
 
 ---
 
