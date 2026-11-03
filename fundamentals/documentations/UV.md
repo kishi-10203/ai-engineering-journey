@@ -54,11 +54,10 @@ Traditionally, Python developers use different tools for managing Python version
 
 ---
 
-## Major Functionalities of UV
+### Major Functionalities of UV
+> #### Python Version Management
 
-> ### Python Version Management
-
-**Command:** uv python
+**Command:** `uv python`
 
 UV can download, install, discover, and manage multiple Python versions.
 
