@@ -69,7 +69,7 @@ For example:
 
 > we can manage these versions using UV without manually managing separate Python installations.
 
-### Useful Commands
+##### Useful Commands
 
 | UV Command | Purpose |
 |---|---|
@@ -80,27 +80,26 @@ For example:
 | `uv python pin 3.12` | Pin a Python version for a project |
 | `uv python uninstall 3.10` | Uninstall Python 3.10 |
 
-Understanding .python-version
 
-When we execute:
+> ##### When we execute:
 
-bash
-uv python pin 3.12
+> bash
+> ```uv python pin 3.12``
+>
+> *UV creates a file named .python-version.*
+>
+> It contains:
+>
+>text
+>`3.12`
 
-UV creates a file named .python-version.
-
-It contains:
-
-text
-3.12
-
-This tells UV which Python version to use for that project.
+*This tells UV which Python version to use for that project.*
 
 > **Use Case:** Useful when multiple projects require different Python versions.
 
 ---
 
-#### Virtual Environment Management
+> #### Virtual Environment Management
 
 **Command:** `uv venv`
 
