@@ -1,5 +1,6 @@
 # UV – Python's Modern Package and Project Manager
 
+---
 ## 1. What Is `uv`?
 
 `uv` is a modern Python package and project manager developed by Astral and written in Rust.
@@ -8,6 +9,7 @@ It combines multiple Python development tools into one unified command-line inte
 
 > *Official documentation:* [uv Docs](https://docs.astral.sh/uv/)
 
+---
 ## 2. Why Do We Need `uv`?
 
 Imagine building an AI application using:
@@ -31,6 +33,7 @@ A project like this requires you to manage several things:
 
 Traditionally, multiple tools might be needed to accomplish these tasks. `uv` simplifies the workflow by providing a unified interface.
 
+---
 ## 3. `uv` Commands – Cheat Sheet
 
 | Command | Purpose |
@@ -55,6 +58,7 @@ Traditionally, multiple tools might be needed to accomplish these tasks. `uv` si
 | `uv cache clean` | Clear the `uv` cache |
 | `uv self update` | Update `uv` |
 
+---
 ## 4. Traditional Tools vs. `uv`
 
 | Traditional tool | Purpose | `uv` equivalent |
@@ -70,9 +74,10 @@ Traditionally, multiple tools might be needed to accomplish these tasks. `uv` si
 
 > *Note:* These are functional comparisons, not exact one-to-one replacements in every workflow.
 
+---
 ## 5. Major Functionalities of `uv`
 
-### 5.1 Python Version Management
+> ### 5.1 Python Version Management
 
 `uv` can download, install, discover, and manage multiple Python versions.
 
@@ -107,7 +112,7 @@ This creates a file named `.python-version` containing:
 
 *This tells `uv` which Python version to use for the project.*
 
-### 5.2 Virtual Environment Management
+> ### 5.2 Virtual Environment Management
 
 A virtual environment creates an isolated Python environment for each project. Dependencies installed in one environment do not automatically become available in another.
 
@@ -139,7 +144,7 @@ uv run python main.py
 
 `uv` automatically uses the project's environment.
 
-### 5.3 Package Management
+> ### 5.3 Package Management
 
 Package management is one of the most important functionalities of `uv`.
 
@@ -188,7 +193,7 @@ With `uv`, there are two approaches.
 
 > *Recommendation:* Use `uv add` for new projects managed by `uv`.
 
-### 5.4 Dependency Management and Locking
+> ### 5.4 Dependency Management and Locking
 
 Dependency locking is particularly important when working in teams.
 
@@ -243,7 +248,7 @@ uv sync
 
 > *Recommendation:* Commit both `pyproject.toml` and `uv.lock` to GitHub.
 
-### 5.5 Running Python Scripts
+> ### 5.5 Running Python Scripts
 
 Normally, a Python file is executed using:
 
@@ -268,7 +273,7 @@ uv run main.py
 - Prototypes
 - Small standalone Python programs
 
-### 5.6 Running Developer Tools
+> ### 5.6 Running Developer Tools
 
 Developers frequently need tools such as Ruff. Installing these tools globally can sometimes create dependency conflicts.
 
@@ -280,7 +285,7 @@ Developers frequently need tools such as Ruff. Installing these tools globally c
 | `uv tool uninstall ruff` | Uninstall a tool |
 | `uv tool upgrade --all` | Upgrade all installed tools |
 
-### 5.7 Building and Publishing Python Packages
+> ### 5.7 Building and Publishing Python Packages
 
 Suppose you develop a reusable Python library containing custom RAG utilities and want to distribute it so other developers can install it.
 
@@ -305,7 +310,7 @@ This uploads the package to a configured package index, such as PyPI.
 
 > *Note:* Appropriate credentials and publishing configuration are required.
 
-### 5.8 Cache Management
+> ### 5.8 Cache Management
 
 `uv` maintains a global cache to avoid repeatedly downloading and building the same dependencies. This improves installation speed and reduces redundant storage.
 
@@ -316,6 +321,8 @@ This uploads the package to a configured package index, such as PyPI.
 | `uv cache dir` | Show the `uv` cache directory |
 | `uv cache prune` | Remove unused cache entries |
 | `uv cache clean` | Clear the `uv` cache |
+
+---
 
 ## 6. Difference Between `pyproject.toml` and `uv.lock`
 
@@ -332,6 +339,8 @@ This uploads the package to a configured package index, such as PyPI.
 | Updated by | `uv add`, manual edits | `uv lock`, `uv add` |
 | Used for | Project configuration and dependency management | Reproducible dependency installation |
 | Environment recreation | Provides dependency requirements | Helps recreate consistent environments using `uv sync` |
+
+---
 
 ## 7. `uv` vs. Traditional Python Tools
 
@@ -350,7 +359,9 @@ This uploads the package to a configured package index, such as PyPI.
 
 These comparisons describe overlapping capabilities, not identical implementations.
 
-## 8. Final Takeaway
+---
+
+## Final Takeaway
 
 `uv` is not just another replacement for `pip`. It is a Python development workflow tool that handles:
 
