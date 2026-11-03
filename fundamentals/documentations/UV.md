@@ -209,16 +209,14 @@ commands: `uv lock`,`uv sync`
 
 This functionality is particularly important when working in teams.
 
-> Imagine you install:
-
-bash
+Imagine you install:
 > `pip install langchain`
 
 Today, it installs one version. A few weeks later, another developer installs it and receives a newer version.
 
 This can cause compatibility issues.
 
-> *UV helps solve this using a lockfile named uv.lock.*
+*UV helps solve this using a lockfile named uv.lock.*
 
 > ### What Is a Lockfile?
 
@@ -261,10 +259,9 @@ Another developer clones the repository and executes:
 **bash**
 > `uv sync`
 
+*UV recreates the project environment using the declared dependencies and lockfile.*
 
->UV recreates the project environment using the declared dependencies and lockfile.
-
-*Recommendation: Commit both pyproject.toml and uv.lock to GitHub.*
+> *Recommendation: Commit both pyproject.toml and uv.lock to GitHub.*
 
 ---
 
@@ -282,312 +279,85 @@ Normally, you execute a Python file using:
 
 The advantage is that UV can automatically manage the project's environment and dependencies before executing the script.
 
-Run with a Specific Python Version
->`uv run --python 3.12 main.py`
-
-Inline Script Dependencies
-
 UV also supports defining dependencies directly inside standalone Python scripts.
-
-Initialize script metadata:
->`uv init --script example.py --python 3.12`
-
-
-Add dependencies:
-uv add --script example.py requests
-
-
-Execute the script:
-
-bash
-uv run example.py
-
 
 UV handles the script's dependencies in an isolated environment.
 
-Use Cases:
+> **Use Cases:**
 
-Quick experiments
-Automation scripts
-Prototypes
-Small standalone Python programs
-3.6 Running Developer Tools
-
-Commands: uvx, uv tool
-
-As a developer, you frequently need tools such as:
-
-Tool	Purpose
-Ruff	Python linting and formatting
-Black	Python code formatting
-Pytest	Testing
-HTTPie	HTTP client
-
-Installing these tools globally can sometimes create dependency conflicts.
-
-UV provides isolated environments for standalone command-line tools.
-
-Run a Tool Without Permanently Installing It
-bash
-uvx ruff check .
-
-Install a Tool Permanently for Your User
-bash
-uv tool install ruff
-
-Other Useful Commands
-bash
-##### List installed tools
-uv tool list
-
-##### Uninstall a tool
-uv tool uninstall ruff
-
-##### Upgrade installed tools
-uv tool upgrade --all
-
-Example: Traditional vs UV
-
-Without UV:
-
-bash
-pip install ruff
-ruff check .
+* Quick experiments
+* Automation scripts
+* Prototypes
+* Small standalone Python programs
+* Running Developer Tools
+   > * As a developer, you frequently need tools such as:
+   > * Installing these tools globally can sometimes create dependency conflicts.
+   > * UV provides isolated environments for standalone command-line tools.
 
 
-With UV:
+| UV Command | Purpose |
+|---|---|
+| `uv tool list` | List installed tools |
+| `uv tool uninstall ruff` | Uninstall a tool |
+| `uv tool upgrade --all` | Upgrade all installed tools |
 
-bash
-uvx ruff check .
-
-
-The second approach runs Ruff without permanently installing it.
-
-This functionality is similar to the purpose of pipx.
 
 ---
 
-#### Building and Publishing Python Packages
+> ### Building and Publishing Python Packages
 
-Commands: uv build, uv publish
-
-Suppose you develop a reusable Python library.
-
-For example, you build a custom Python package containing reusable RAG utilities.
+Suppose you develop a reusable Python library, say a custom Python package containing reusable RAG utilities.
 
 You may want to distribute it so other developers can install it.
 
-UV supports this workflow.
-
-Build a Package
-bash
-uv build
-
+> UV supports this - `uv build`
 
 This generates distribution files, generally:
 
-.whl – Wheel distribution.
-.tar.gz – Source distribution.
-Publish a Package
-bash
-uv publish
+> .whl – Wheel distribution.
+>.tar.gz – Source distribution.
+> Publish a Package - `uv publish`
 
 
 This uploads your package to a configured package index, such as PyPI.
 
-You need appropriate credentials and publishing configuration.
+> *You need appropriate credentials and publishing configuration.*
 
-Use Cases:
 
-Developing reusable Python libraries
-Creating internal Python packages
-Distributing Python utilities
-Publishing open-source packages
-3.8 Cache Management
+---
 
-Command: uv cache
+> ### Cache Management
 
 UV maintains a global cache to avoid repeatedly downloading and building the same dependencies.
 
-For example:
-
-You install FastAPI in Project A.
-You install FastAPI in Project B.
-UV can reuse cached package data instead of downloading everything again.
-
 This improves installation speed and reduces redundant storage.
-
-Useful Commands
-bash
-##### Show cache directory
-uv cache dir
-
-##### Remove unused cache entries
-uv cache prune
-
-##### Clear the cache
-uv cache clean
-
 
 UV uses efficient package caching and reuse, so separate project environments don't necessarily require separate full copies of every dependency.
 
----
-
-### Understanding UV Project Structure
-
-Let's connect everything.
-
-Create a new project:
-
-bash
-uv init my-ai-project
-cd my-ai-project
-
-
-**A typical project structure looks like this:**
-
-text
-my-ai-project/
-│
-├── .venv/
-│
-├── .python-version
-│
-├── main.py
-│
-├── pyproject.toml
-│
-├── uv.lock
-│
-└── README.md
-
-Understanding Each File
-| File / Folder | Purpose |
+| UV Command | Purpose |
 |---|---|
-| `.venv/` | Isolated Python environment |
-| `.python-version` | Preferred Python version |
-| `main.py` | Application entry point |
-| `pyproject.toml` | Project metadata and declared dependencies |
-| `uv.lock` | Exact resolved dependency information |
-| `README.md` | Project documentation |
+| `uv cache dir` | Show the UV cache directory |
+| `uv cache prune` | Remove unused cache entries |
+| `uv cache clean` | Clear the UV cache |
 
 ---
 
-#### Understanding pyproject.toml
+> ### Difference Between `pyproject.toml` and `uv.lock`
 
-This is one of the most important files in modern Python development.
+| Feature | `pyproject.toml` | `uv.lock` |
+|---|---|---|
+| Purpose | Defines project configuration and metadata | Records exact resolved dependency information |
+| Project name | Stores project name | Not its primary purpose |
+| Project version | Stores project version | Not its primary purpose |
+| Python version | Specifies required Python version | Records Python compatibility and resolution details |
+| Dependencies | Declares direct project dependencies | Records resolved package versions |
+| Package versions | Specifies version constraints | Records exact resolved versions |
+| Dependency resolution | Defines dependency requirements | Stores the resolved dependency graph |
+| Manual editing | Can be edited manually | Generally should not be edited manually |
+| Updated by | `uv add`, manual edits | `uv lock`, `uv add` |
+| Used for | Project configuration and dependency management | Reproducible dependency installation |
+| Environment recreation | Provides dependency requirements | Helps recreate consistent environments using `uv sync` |
 
-Example:
-
-toml
-[project]
-name = "my-ai-project"
-version = "0.1.0"
-requires-python = ">=3.12"
-dependencies = [
-    "fastapi",
-    "pydantic",
-    "langchain",
-]
-
-
-It describes:
-
-Project name
-Project version
-Required Python version
-Project dependencies
-
-When you execute:
-
-bash
-uv add fastapi
-
-
-UV updates the dependencies in this file and resolves the lockfile.
-
-#### Understanding uv.lock
-
-This file contains the resolved package versions and dependency information.
-
-You generally shouldn't edit it manually.
-
-When another developer clones your project, they can execute:
-
-bash
-uv sync
-
-
-UV uses the project configuration and lockfile to recreate the environment.
-
-### Hands-On Example: Building an AI Project Using UV
-
-Let's build a simple FastAPI backend for an LLM application.
-
-Step 1: Install UV
-
-Linux/macOS:
-
-bash
-curl -LsSf https://astral.sh/uv/install.sh | sh
-
-
-Windows PowerShell:
-
-powershell
-powershell -ExecutionPolicy ByPass -c "irm https://astral.sh/uv/install.ps1 | iex"
-
-
-Verify installation:
-
-bash
-uv --version
-
-Step 2: Create a Project
-bash
-uv init ai-backend
-cd ai-backend
-
-Step 3: Select Python Version
-bash
-uv python install 3.12
-uv python pin 3.12
-
-Step 4: Add Dependencies
-bash
-uv add fastapi uvicorn pydantic
-uv add openai langchain langgraph
-
-Step 5: Create Your Application
-
-Create main.py:
-
-python
-from fastapi import FastAPI
-
-app = FastAPI()
-
-@app.get("/")
-def home():
-    return {"message": "AI Backend is running!"}
-
-Step 6: Run Your Application
-bash
-uv run uvicorn main:app --reload
-
-Step 7: Install Dependencies on Another Machine
-
-After cloning the repository:
-
-bash
-uv sync
-
-Step 8: Run the Application
-bash
-uv run uvicorn main:app --reload
-
-
-That's it! You now have a reproducible Python development workflow.
 
 ---
 
@@ -625,5 +395,3 @@ It is a complete Python development workflow tool that handles:
 * Dependency caching
 
 Once you understand UV, managing Python environments for FastAPI, LangChain, LangGraph, and RAG projects becomes considerably easier.
-
-Recommended approach: Use UV as your default Python project and dependency manager for new projects.
