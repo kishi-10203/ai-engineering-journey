@@ -57,8 +57,6 @@ Traditionally, Python developers use different tools for managing Python version
 ### Major Functionalities of UV
 > #### Python Version Management
 
-Command: `uv python`
-
 UV can download, install, discover, and manage multiple Python versions.
 
 For example:
@@ -85,88 +83,66 @@ For example:
 
 > bash
 >
->```uv python pin 3.12``
+>`uv python pin 3.12`
 >
 > UV creates a file named **.python-version.**
 > It contains: **text** - `3.12`
 
-*** This tells UV which Python version to use for that project.*** 
-*Useful when multiple projects require different Python versions.*
+*This tells UV which Python version to use for that project.*
 
 ---
 
 > #### Virtual Environment Management
 
-**Command:** `uv venv`
-
 A virtual environment creates an isolated Python environment for each project.
-
-For example:
-
-text
-Project A/
-    └── .venv/
-        ├── FastAPI
-        └── Pydantic
-
-Project B/
-    └── .venv/
-        ├── Django
-        └── NumPy
-
 
 Dependencies installed in one environment don't automatically become available in the other.
 
-Useful Commands
-bash
-##### Create a virtual environment
-uv venv
+##### Useful Commands
 
-##### Create with a specific Python version
-uv venv --python 3.12
+| UV Command | Purpose |
+|---|---|
+| `uv venv` | Create a virtual environment |
+| `uv venv --python 3.12` | Create a virtual environment with a specific Python version (3.12) |
+| `uv venv myenv` | Create a virtual environment with a custom name (`myenv`) |
 
-##### Create with a custom name
-uv venv myenv
 
-Activating the Environment
+##### Activating the Environment
 
 **Linux/macOS:**
-
-bash
-source .venv/bin/activate
+> `source .venv/bin/activate`
 
 
 **Windows PowerShell:**
-
-powershell
-.venv\Scripts\Activate.ps1
+> `.venv\Scripts\Activate.ps1`
 
 
 However, UV also allows you to execute commands without manually activating the environment.
 
-**bash**
-uv run python main.py
+bash
+>`uv run python main.py`
 
+*UV automatically uses the project's environment.*
 
-**UV automatically uses the project's environment.**
+---
 
-#### Package Management
+> #### Package Management
 
-**Commands: uv add, uv remove, uv pip**
+commands: `uv add`, `uv remove`, `uv pip`
 
 Package management is one of the most important functionalities of UV.
 
 Traditionally, you install Python packages using pip:
 
 bash
-pip install fastapi
-pip install pydantic
-pip install langchain
+>`pip install fastapi`
+>`pip install pydantic`
+>`pip install langchain`
 
 
-With UV, there are two approaches.
+With UV, there are **two approaches.**
 
-Approach A: Project-Based Dependency Management
+> ###### Approach A: Project-Based Dependency Management
 bash
 ##### Add a dependency to the project
 uv add fastapi
@@ -211,6 +187,9 @@ uv pip check
 | Recommended for managed projects | Useful for existing pip workflows |
 
 Recommendation: Use uv add for new projects managed by UV.
+
+
+---
 
 #### Dependency Management and Locking
 
