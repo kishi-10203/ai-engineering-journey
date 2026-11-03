@@ -57,7 +57,7 @@ Traditionally, Python developers use different tools for managing Python version
 ### Major Functionalities of UV
 > #### Python Version Management
 
-**Command:** `uv python`
+Command: `uv python`
 
 UV can download, install, discover, and manage multiple Python versions.
 
@@ -81,21 +81,17 @@ For example:
 | `uv python uninstall 3.10` | Uninstall Python 3.10 |
 
 
-> ##### When we execute:
+##### When we execute:
 
 > bash
-> ```uv python pin 3.12``
 >
-> *UV creates a file named .python-version.*
+>```uv python pin 3.12``
 >
-> It contains:
->
->text
->`3.12`
+> UV creates a file named **.python-version.**
+> It contains: **text** - `3.12`
 
-*This tells UV which Python version to use for that project.*
-
-> **Use Case:** Useful when multiple projects require different Python versions.
+*** This tells UV which Python version to use for that project.*** 
+*Useful when multiple projects require different Python versions.*
 
 ---
 
