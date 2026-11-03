@@ -63,10 +63,7 @@ Rather than focusing only on frameworks, iam exploring the complete AI engineeri
 * Technical notes and explanations
 * Official documentation and research papers
 * Python implementations
-* Hands-on exercises
 * Experiments and comparisons
-* Practical project deliverables
-* Learning Philosophy
 
 
 # Primary objective:
