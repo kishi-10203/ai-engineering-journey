@@ -30,7 +30,7 @@ Traditionally, Python developers use different tools for managing Python version
 
 ### Why Do We Need UV?
 
-**Imagine building an AI application using:**
+> Imagine building an AI application using:
 
 * Python 3.12
 * FastAPI
@@ -40,7 +40,7 @@ Traditionally, Python developers use different tools for managing Python version
 * PostgreSQL
 * Pydantic
 
-**we need to manage several things:**
+> we need to manage several things:
 
 * Which Python version should the project use?
 * How do you isolate project dependencies?
@@ -49,7 +49,7 @@ Traditionally, Python developers use different tools for managing Python version
 * How do you ensure another developer can recreate your environment?
 * How do you execute your application? 
 
-> *Traditionally, you might need multiple tools to accomplish these tasks.*
+> *Traditionally, we might need multiple tools to accomplish these tasks.*
 *UV simplifies this workflow by providing a unified interface.*
 
 ---
@@ -67,35 +67,25 @@ For example:
 * Project B requires Python 3.11.
 * Project C requires Python 3.12.
 
-You can manage these versions using UV without manually managing separate Python installations.
+> we can manage these versions using UV without manually managing separate Python installations.
 
-Useful Commands
-bash
-##### List available Python versions
-uv python list
+### Useful Commands
 
-##### Install Python 3.12
-uv python install 3.12
-
-##### Install multiple versions
-uv python install 3.10 3.11 3.12
-
-##### Find an installed Python version
-uv python find 3.12
-
-##### Pin a Python version for a project
-uv python pin 3.12
-
-##### Uninstall a Python version
-uv python uninstall 3.10
+| UV Command | Purpose |
+|---|---|
+| `uv python list` | List available Python versions |
+| `uv python install 3.12` | Install Python 3.12 |
+| `uv python install 3.10 3.11 3.12` | Install multiple Python versions |
+| `uv python find 3.12` | Find an installed Python version |
+| `uv python pin 3.12` | Pin a Python version for a project |
+| `uv python uninstall 3.10` | Uninstall Python 3.10 |
 
 Understanding .python-version
 
-When you execute:
+When we execute:
 
 bash
 uv python pin 3.12
-
 
 UV creates a file named .python-version.
 
@@ -104,14 +94,15 @@ It contains:
 text
 3.12
 
-
 This tells UV which Python version to use for that project.
 
-**Use Case:** Useful when multiple projects require different Python versions.
+> **Use Case:** Useful when multiple projects require different Python versions.
+
+---
 
 #### Virtual Environment Management
 
-**Command:** uv venv
+**Command:** `uv venv`
 
 A virtual environment creates an isolated Python environment for each project.
 
