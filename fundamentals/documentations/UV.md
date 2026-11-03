@@ -54,7 +54,7 @@ You need to manage several things:
 
 
 
-1. ### Python Version Management
+1. Python Version Management
 
 **Command:** uv python
 
