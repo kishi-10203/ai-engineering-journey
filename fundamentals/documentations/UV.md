@@ -85,7 +85,7 @@ For example:
 >
 >`uv python pin 3.12`
 >
-> UV creates a file named **.python-version.**
+> uv creates a file named **.python-version.**
 > It contains: **text** - `3.12`
 
 *This tells UV which Python version to use for that project.*
@@ -107,22 +107,22 @@ Dependencies installed in one environment don't automatically become available i
 | `uv venv myenv` | Create a virtual environment with a custom name (`myenv`) |
 
 
-##### Activating the Environment
+#### Activating the Environment
 
-**Linux/macOS:**
+##### Linux/macOS:
 > `source .venv/bin/activate`
 
 
-**Windows PowerShell:**
+##### Windows PowerShell:
 > `.venv\Scripts\Activate.ps1`
 
 
 However, UV also allows you to execute commands without manually activating the environment.
 
-bash
+##### bash
 >`uv run python main.py`
 
-*UV automatically uses the project's environment.*
+UV automatically uses the project's environment.
 
 ---
 
@@ -142,51 +142,41 @@ bash
 
 With UV, there are **two approaches.**
 
-> ###### Approach A: Project-Based Dependency Management
-bash
-##### Add a dependency to the project
-uv add fastapi
+> ### *Approach A*: Project-Based Dependency Management
 
-##### Add multiple dependencies
-uv add fastapi pydantic langchain
-
-##### Remove a dependency
-uv remove fastapi
+| UV Command | Purpose |
+|---|---|
+| `uv add fastapi` | Add a dependency to the project |
+| `uv add fastapi pydantic langchain` | Add multiple dependencies to the project |
+| `uv remove fastapi` | Remove a dependency from the project |
 
 
-UV automatically updates:
+#### UV automatically updates:
 
-pyproject.toml
-uv.lock
-Approach B: pip-Compatible Package Management
-bash
+> pyproject.toml
+> uv.lock
 
-##### Install a package
-uv pip install fastapi
 
-##### Install multiple packages
-uv pip install fastapi pydantic
+> ### *Approach B*: pip-Compatible Package Management
 
-##### List installed packages
-uv pip list
-
-##### Show package information
-uv pip show fastapi
-
-##### Uninstall a package
-uv pip uninstall fastapi
-
-##### Check dependency compatibility
-uv pip check
-
+| UV Command | Purpose |
+|---|---|
+| `uv pip install fastapi` | Install a package |
+| `uv pip install fastapi pydantic` | Install multiple packages |
+| `uv pip list` | List installed packages |
+| `uv pip show fastapi` | Show package information |
+| `uv pip uninstall fastapi` | Uninstall a package |
+| `uv pip check` | Check dependency compatibility |
 | `uv add` | `uv pip install` |
 |---|---|
+
+
 | Project-oriented | Environment-oriented |
 | Updates `pyproject.toml` | Does not update project dependencies |
 | Updates the project lockfile | Does not automatically update `uv.lock` |
 | Recommended for managed projects | Useful for existing pip workflows |
 
-Recommendation: Use uv add for new projects managed by UV.
+> *Recommendation: Use uv add for new projects managed by UV.*
 
 
 ---
