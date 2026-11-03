@@ -6,8 +6,10 @@ UV combines multiple Python development tools into one unified command-line tool
 
 Traditionally, Python developers use different tools for managing Python versions, virtual environments, dependencies, and packages. UV brings these functionalities together.
 
-*Official Documentation:* [uv Docs](https://docs.astral.sh/uv/)
+> *Official Documentation:* [uv Docs](https://docs.astral.sh/uv/)
 
+
+---
 
 ### Traditional Tools vs UV
 
@@ -22,8 +24,9 @@ Traditionally, Python developers use different tools for managing Python version
 | build | Building Python packages | `uv build` |
 | twine | Publishing Python packages | `uv publish` |
 
-Note: These are functional comparisons, not exact one-to-one replacements in every workflow.
+> *Note: These are functional comparisons, not exact one-to-one replacements in every workflow.*
 
+---
 
 ### Why Do We Need UV?
 
@@ -37,7 +40,7 @@ Imagine building an AI application using:
 * PostgreSQL
 * Pydantic
 
-You need to manage several things:
+we need to manage several things:
 
 * Which Python version should the project use?
 * How do you isolate project dependencies?
