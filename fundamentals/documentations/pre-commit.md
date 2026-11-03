@@ -1,6 +1,6 @@
 # Pre-commit in Python Projects Using `uv`
 
-> ## 1. What Is `pre-commit`?
+## 1. What Is `pre-commit`?
 
 `pre-commit` is a development tool that automatically runs configured
 quality checks before a Git commit is created.
@@ -19,7 +19,7 @@ changes enter the shared repository.
 
 ---
 
-> ## 2. How `pre-commit` Works
+## 2. How `pre-commit` Works
 
 The workflow has three main components:
 
@@ -31,14 +31,14 @@ The workflow has three main components:
 
 ### Workflow
 
->1.  A developer edits and stages files.
->2.  The developer runs `git commit`.
->3.  Git invokes `.git/hooks/pre-commit`.
->4.  `pre-commit` reads `.pre-commit-config.yaml` and runs applicable
->    hooks.
->5.  If checks pass, Git creates the commit.
->6.  If a check fails---or a hook changes a file---the commit is stopped.
->   Review and stage any changes, then commit again.
+1.  A developer edits and stages files.
+2.  The developer runs `git commit`.
+3.  Git invokes `.git/hooks/pre-commit`.
+4.  `pre-commit` reads `.pre-commit-config.yaml` and runs applicable
+    hooks.
+5.  If checks pass, Git creates the commit.
+6.  If a check fails---or a hook changes a file---the commit is stopped.
+    Review and stage any changes, then commit again.
 
 For example, a hook may detect this formatting issue:
 
@@ -49,7 +49,7 @@ def calculate_total(price, tax):
 
 ---
 
-> ## 3. Set Up `pre-commit` with `uv`
+## 3. Set Up `pre-commit` with `uv`
 
 ### Step 1: Create a project
 
@@ -79,12 +79,17 @@ uv tool install pre-commit
 pre-commit --version
 ```
 
-| Approach | Best suited for |
-|---|---|
-| `uv add --dev pre-commit` | Team projects with reproducible development dependencies |
-| `uv tool install pre-commit` | A separately installed CLI tool |
-| `uvx pre-commit` | Running the tool without a permanent installation |
+  -----------------------------------------------------------------------
+  Approach                            Best suited for
+  ----------------------------------- -----------------------------------
+  `uv add --dev pre-commit`           Team projects with reproducible
+                                      development dependencies
 
+  `uv tool install pre-commit`        A separately installed CLI tool
+
+  `uvx pre-commit`                    Running the tool without a
+                                      permanent installation
+  -----------------------------------------------------------------------
 
 ### Step 3: Create `.pre-commit-config.yaml`
 
@@ -137,7 +142,7 @@ introducing hooks to an existing repository.
 
 ---
 
-> ## 4. Understanding the Configuration
+## 4. Understanding the Configuration
 
 ### `repos`
 
@@ -155,17 +160,17 @@ developers.
 
 The `hooks` section lists the checks to execute.
 
-| Hook | Purpose |
-|---|---|
-| `trailing-whitespace` | Removes trailing spaces |
-| `end-of-file-fixer` | Ensures files end with a newline |
-| `check-yaml` | Validates YAML syntax |
-| `check-json` | Validates JSON syntax |
-| `check-toml` | Validates TOML syntax |
-| `check-merge-conflict` | Detects merge-conflict markers |
-| `debug-statements` | Detects Python debugging statements |
-| `ruff` | Checks Python linting issues |
-| `ruff-format` | Formats Python code |
+  Hook                     Purpose
+  ------------------------ -------------------------------------
+  `trailing-whitespace`    Removes trailing spaces
+  `end-of-file-fixer`      Ensures files end with a newline
+  `check-yaml`             Validates YAML syntax
+  `check-json`             Validates JSON syntax
+  `check-toml`             Validates TOML syntax
+  `check-merge-conflict`   Detects merge-conflict markers
+  `debug-statements`       Detects Python debugging statements
+  `ruff`                   Checks Python linting issues
+  `ruff-format`            Formats Python code
 
 ### `args`
 
@@ -193,20 +198,28 @@ This example selects Python files and excludes files under
 
 ---
 
-> ## 5. Manual Run Commands
+## 5. Common Commands
 
-| Command | Use case |
-|---|---|
-| `uv run pre-commit --version` | Check the installed version |
-| `uv run pre-commit install` | Install the Git hook |
-| `uv run pre-commit run` | Run hooks on staged files |
-| `uv run pre-commit run --all-files` | Run hooks on all applicable tracked files |
-| `uv run pre-commit autoupdate` | Update configured hook revisions |
-| `uv run pre-commit uninstall` | Remove the installed Git hook |
+  -------------------------------------------------------------------------
+  Command                               Use case
+  ------------------------------------- -----------------------------------
+  `uv run pre-commit --version`         Check the installed version
+
+  `uv run pre-commit install`           Install the Git hook
+
+  `uv run pre-commit run`               Run hooks on staged files
+
+  `uv run pre-commit run --all-files`   Run hooks on all applicable tracked
+                                        files
+
+  `uv run pre-commit autoupdate`        Update configured hook revisions
+
+  `uv run pre-commit uninstall`         Remove the installed Git hook
+  -------------------------------------------------------------------------
 
 ---
 
-> ## 6. What Happens When a Check Fails?
+## 6. What Happens When a Check Fails?
 
 Suppose a file contains a debugging statement or formatting issue:
 
@@ -229,7 +242,7 @@ If all checks pass, Git proceeds with the commit.
 
 ---
 
-> ## 7. Integrate `pre-commit` into CI/CD
+## 7. Integrate `pre-commit` into CI/CD
 
 Git hooks run locally and can be bypassed with:
 
@@ -273,7 +286,7 @@ and follow organizational dependency and security policies.
 
 ---
 
-> ## 8. Best Practices
+## 8. Best Practices
 
 1.  Keep `pre-commit` in development dependencies for team projects.
 2.  Commit `uv.lock` to support consistent dependency resolution.
@@ -286,21 +299,35 @@ and follow organizational dependency and security policies.
 
 ---
 
-> ## 9. Complete Workflow Cheat Sheet
+## 9. Complete Workflow Cheat Sheet
 
-| Step | Command or action | Purpose |
-|---|---|---|
-| Create project | `uv init my-project` | Initialize the project |
-| Add tool | `uv add --dev pre-commit` | Declare the development dependency |
-| Configure | Create `.pre-commit-config.yaml` | Choose hooks and revisions |
-| Sync | `uv sync --group dev` | Install project development dependencies |
-| Install hook | `uv run pre-commit install` | Run hooks automatically on commit |
-| Validate | `uv run pre-commit run --all-files` | Check tracked files |
-| Commit | `git add .` then `git commit -m "..."` | Commit after checks pass |
+  -------------------------------------------------------------------------------------
+  Step                    Command or action                     Purpose
+  ----------------------- ------------------------------------- -----------------------
+  Create project          `uv init my-project`                  Initialize the project
+
+  Add tool                `uv add --dev pre-commit`             Declare the development
+                                                                dependency
+
+  Configure               Create `.pre-commit-config.yaml`      Choose hooks and
+                                                                revisions
+
+  Sync                    `uv sync --group dev`                 Install project
+                                                                development
+                                                                dependencies
+
+  Install hook            `uv run pre-commit install`           Run hooks automatically
+                                                                on commit
+
+  Validate                `uv run pre-commit run --all-files`   Check tracked files
+
+  Commit                  `git add .` then                      Commit after checks
+                          `git commit -m "..."`                 pass
+  -------------------------------------------------------------------------------------
 
 ---
 
-> ## 10. Final Takeaway
+## 10. Final Takeaway
 
 `pre-commit` automates repository checks before commits, helping teams
 catch common quality issues early and apply consistent standards. With
