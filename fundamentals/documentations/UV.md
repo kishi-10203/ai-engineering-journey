@@ -1,6 +1,5 @@
 # UV – Python's Modern Package and Project Manager
 
----
 ## 1. What Is `uv`?
 
 `uv` is a modern Python package and project manager developed by Astral and written in Rust.
