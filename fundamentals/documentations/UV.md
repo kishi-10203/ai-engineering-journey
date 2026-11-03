@@ -30,7 +30,7 @@ Traditionally, Python developers use different tools for managing Python version
 
 ### Why Do We Need UV?
 
-Imagine building an AI application using:
+> Imagine building an AI application using:
 
 * Python 3.12
 * FastAPI
@@ -40,7 +40,7 @@ Imagine building an AI application using:
 * PostgreSQL
 * Pydantic
 
-we need to manage several things:
+> we need to manage several things:
 
 * Which Python version should the project use?
 * How do you isolate project dependencies?
@@ -49,7 +49,7 @@ we need to manage several things:
 * How do you ensure another developer can recreate your environment?
 * How do you execute your application? 
 
-*Traditionally, you might need multiple tools to accomplish these tasks.*
+> *Traditionally, you might need multiple tools to accomplish these tasks.*
 *UV simplifies this workflow by providing a unified interface.*
 
 
