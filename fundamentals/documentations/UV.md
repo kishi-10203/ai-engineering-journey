@@ -8,6 +8,29 @@ Traditionally, Python developers use different tools for managing Python version
 
 > *Official Documentation:* [uv Docs](https://docs.astral.sh/uv/)
 
+### UV Commands – Cheat Sheet
+
+| UV Command | Purpose |
+|---|---|
+| `uv --version` | Check UV version |
+| `uv init` | Initialize a project |
+| `uv python list` | List available Python versions |
+| `uv python install 3.12` | Install Python |
+| `uv python pin 3.12` | Pin Python version |
+| `uv venv` | Create virtual environment |
+| `uv add package` | Add project dependency |
+| `uv remove package` | Remove project dependency |
+| `uv pip install package` | Install package into an environment |
+| `uv lock` | Generate or update lockfile |
+| `uv sync` | Synchronize project environment |
+| `uv run main.py` | Execute Python script |
+| `uv tree` | Display dependency tree |
+| `uvx ruff check .` | Run a standalone tool |
+| `uv tool install ruff` | Install a CLI tool |
+| `uv build` | Build Python package |
+| `uv publish` | Publish Python package |
+| `uv cache clean` | Clear UV cache |
+| `uv self update` | Update UV |
 
 ---
 
@@ -54,8 +77,8 @@ Traditionally, Python developers use different tools for managing Python version
 
 ---
 
-### Major Functionalities of UV
-> #### Python Version Management
+## Major Functionalities of UV
+> ### Python Version Management
 
 UV can download, install, discover, and manage multiple Python versions.
 
@@ -67,7 +90,6 @@ For example:
 
 > we can manage these versions using UV without manually managing separate Python installations.
 
-##### Useful Commands
 
 | UV Command | Purpose |
 |---|---|
@@ -79,10 +101,9 @@ For example:
 | `uv python uninstall 3.10` | Uninstall Python 3.10 |
 
 
-##### When we execute:
+**When we execute:**
+bash
 
-> bash
->
 >`uv python pin 3.12`
 >
 > uv creates a file named **.python-version.**
@@ -92,13 +113,11 @@ For example:
 
 ---
 
-> #### Virtual Environment Management
+> ### Virtual Environment Management
 
 A virtual environment creates an isolated Python environment for each project.
 
 Dependencies installed in one environment don't automatically become available in the other.
-
-##### Useful Commands
 
 | UV Command | Purpose |
 |---|---|
@@ -107,7 +126,7 @@ Dependencies installed in one environment don't automatically become available i
 | `uv venv myenv` | Create a virtual environment with a custom name (`myenv`) |
 
 
-#### Activating the Environment
+> #### Activating the Environment
 
 ##### Linux/macOS:
 > `source .venv/bin/activate`
@@ -126,7 +145,7 @@ UV automatically uses the project's environment.
 
 ---
 
-> #### Package Management
+> ### Package Management
 
 commands: `uv add`, `uv remove`, `uv pip`
 
@@ -170,7 +189,10 @@ With UV, there are **two approaches.**
 | `uv add` | `uv pip install` |
 |---|---|
 
+> ### Difference Between `uv add` and `uv pip install`
 
+| `uv add` | `uv pip install` |
+|---|---|
 | Project-oriented | Environment-oriented |
 | Updates `pyproject.toml` | Does not update project dependencies |
 | Updates the project lockfile | Does not automatically update `uv.lock` |
@@ -181,53 +203,46 @@ With UV, there are **two approaches.**
 
 ---
 
-#### Dependency Management and Locking
+> ### Dependency Management and Locking
 
-**Commands: uv lock, uv sync**
+commands: `uv lock`,`uv sync`
 
 This functionality is particularly important when working in teams.
 
-Imagine you install:
+> Imagine you install:
 
 bash
-pip install langchain
-
+> `pip install langchain`
 
 Today, it installs one version. A few weeks later, another developer installs it and receives a newer version.
 
 This can cause compatibility issues.
 
-UV helps solve this using a lockfile named uv.lock.
+> *UV helps solve this using a lockfile named uv.lock.*
 
-##### What Is a Lockfile?
+> ### What Is a Lockfile?
 
 A lockfile records the exact resolved dependency versions and other information required to reproduce a project's dependency installation.
 
 For example, your project might declare:
 
-text
-fastapi
-pydantic
-langchain
+>`text`
+>`fastapi`
+>`pydantic`
+>`langchain`
 
 
 The lockfile records the resolved versions of these packages and their transitive dependencies.
 
-Useful Commands
-bash
-##### Generate or update the lockfile
-uv lock
+| UV Command | Purpose |
+|---|---|
+| `uv lock` | Generate or update the lockfile |
+| `uv sync` | Install dependencies based on the lockfile |
+| `uv tree` | View the dependency tree |
+| `uv export` | Export project dependencies |
 
-##### Install dependencies based on the lockfile
-uv sync
 
-##### View dependency tree
-uv tree
-
-##### Export dependencies
-uv export
-
-##### Important Difference
+> ### Important Difference
 
 | File | Purpose |
 |---|---|
@@ -235,7 +250,7 @@ uv export
 | `uv.lock` | Records exact resolved dependency information |
 | `.venv/` | Contains the installed project environment |
 
-##### Why Is This Important?
+> #### Why Is This Important?
 
 Understanding the difference helps you manage dependencies, maintain reproducible environments, and ensure consistent installations across different machines.
 
@@ -243,49 +258,42 @@ Suppose you push your project to GitHub.
 
 Another developer clones the repository and executes:
 
-bash
-uv sync
+**bash**
+> `uv sync`
 
 
-UV recreates the project environment using the declared dependencies and lockfile.
+>UV recreates the project environment using the declared dependencies and lockfile.
 
-Recommendation: Commit both pyproject.toml and uv.lock to GitHub.
+*Recommendation: Commit both pyproject.toml and uv.lock to GitHub.*
 
-#### Running Python Scripts
+---
 
-Command: uv run
+> ### Running Python Scripts
 
 Normally, you execute a Python file using:
 
-bash
-python main.py
+**bash**
+> `python main.py`
 
 
-With UV:
-
-bash
-uv run main.py
+**With UV:**
+> `uv run main.py`
 
 
 The advantage is that UV can automatically manage the project's environment and dependencies before executing the script.
 
 Run with a Specific Python Version
-bash
-uv run --python 3.12 main.py
+>`uv run --python 3.12 main.py`
 
 Inline Script Dependencies
 
 UV also supports defining dependencies directly inside standalone Python scripts.
 
 Initialize script metadata:
-
-bash
-uv init --script example.py --python 3.12
+>`uv init --script example.py --python 3.12`
 
 
 Add dependencies:
-
-bash
 uv add --script example.py requests
 
 
@@ -357,6 +365,8 @@ The second approach runs Ruff without permanently installing it.
 
 This functionality is similar to the purpose of pipx.
 
+---
+
 #### Building and Publishing Python Packages
 
 Commands: uv build, uv publish
@@ -421,6 +431,8 @@ uv cache clean
 
 UV uses efficient package caching and reuse, so separate project environments don't necessarily require separate full copies of every dependency.
 
+---
+
 ### Understanding UV Project Structure
 
 Let's connect everything.
@@ -458,6 +470,8 @@ Understanding Each File
 | `pyproject.toml` | Project metadata and declared dependencies |
 | `uv.lock` | Exact resolved dependency information |
 | `README.md` | Project documentation |
+
+---
 
 #### Understanding pyproject.toml
 
@@ -575,6 +589,8 @@ uv run uvicorn main:app --reload
 
 That's it! You now have a reproducible Python development workflow.
 
+---
+
 ### UV vs Traditional Python Tools
 | Functionality | Traditional Tool | UV Command |
 |---|---|---|
@@ -591,32 +607,7 @@ That's it! You now have a reproducible Python development workflow.
 
 These comparisons describe overlapping capabilities, not identical implementations.
 
-### Important UV Commands – Cheat Sheet
-
-Keep this table handy while developing Python projects.
-
-##### Command	Functionality
-| UV Command | Purpose |
-|---|---|
-| `uv --version` | Check UV version |
-| `uv init` | Initialize a project |
-| `uv python list` | List available Python versions |
-| `uv python install 3.12` | Install Python |
-| `uv python pin 3.12` | Pin Python version |
-| `uv venv` | Create virtual environment |
-| `uv add package` | Add project dependency |
-| `uv remove package` | Remove project dependency |
-| `uv pip install package` | Install package into an environment |
-| `uv lock` | Generate or update lockfile |
-| `uv sync` | Synchronize project environment |
-| `uv run main.py` | Execute Python script |
-| `uv tree` | Display dependency tree |
-| `uvx ruff check .` | Run a standalone tool |
-| `uv tool install ruff` | Install a CLI tool |
-| `uv build` | Build Python package |
-| `uv publish` | Publish Python package |
-| `uv cache clean` | Clear UV cache |
-| `uv self update` | Update UV |
+---
 
 ### Final Takeaway
 
