@@ -17,12 +17,13 @@ with minimal manual intervention.
 ## 2. Practical Scenario And Pipeline Architecture
 
 | Component | Responsibility |
-| --- | --- |
-| GitHub repository | Stores source code and workflow definitions |
-| GitHub Actions | Automates CI/CD workflows |
-| Docker | Packages the application into an image |
-| Docker Compose | Defines and manages application containers |
-| Linux laptop | Deployment host and self-hosted runner for CD |
+|---|---|
+| Developer | Write code, manage dependencies, run local checks, and push code |
+| GitHub | Store source code and trigger automation |
+| CI | Validate code, run tests, and build a versioned Docker image |
+| Docker registry | Store and distribute the image |
+| CD | Pull the validated image and deploy it |
+| Docker Engine | Run and manage containers |
 
 ``` text
 Developer laptop (Python + uv)
@@ -36,6 +37,11 @@ Developer laptop (Python + uv)
   -> Docker Compose replaces container
   -> New version running
 ```
+
+> **The central principle of CI/CD:** Developers focus on writing code.
+> The pipeline automatically validates, packages, and deploys it
+> consistently and repeatably.
+
 
 > **Important:** GitHub Actions is the automation engine; the repository
 > stores code and workflow configuration; the Docker image is the
@@ -677,38 +683,6 @@ __pycache__/
 
 This prevents unnecessary files and local secrets from entering the
 Docker build context.
-
----
-
-## 9. Final Mental Model
-
-  -----------------------------------------------------------------------
-  Component                           Responsibility
-  ----------------------------------- -----------------------------------
-  Developer                           Write code, manage dependencies,
-                                      run local checks, and push code
-
-  GitHub                              Store source code and trigger
-                                      automation
-
-  CI                                  Validate code, run tests, and build
-                                      a versioned Docker image
-
-  Docker registry                     Store and distribute the image
-
-  CD                                  Pull the validated image and deploy
-                                      it
-
-  Docker Engine                       Run and manage containers
-  -----------------------------------------------------------------------
-
-> **The central principle of CI/CD:** Developers focus on writing code.
-> The pipeline automatically validates, packages, and deploys it
-> consistently and repeatably.
-
-Once the pipeline works on your laptop, try deploying the same image to
-a separate Linux machine. This helps distinguish a CI/CD runner from a
-deployment server---an important real-world DevOps concept.
 
 ---
 
