@@ -5,13 +5,18 @@ repos:
     hooks:
       - id: trailing-whitespace
         exclude: \.md$
+
       - id: end-of-file-fixer
         exclude: \.md$
+
       - id: check-yaml
       - id: check-json
       - id: check-toml
       - id: check-merge-conflict
       - id: debug-statements
+      - id: check-illegal-windows-names
+      - id: detect-private-key
+
 
   # Python linting and formatting
   - repo: https://github.com/astral-sh/ruff-pre-commit
@@ -20,3 +25,10 @@ repos:
       - id: ruff
         args: [--fix]
       - id: ruff-format
+
+
+  # Detect Exposed API Keys, Passwords, and other secrets
+  - repo: https://github.com/gitleaks/gitleaks
+    rev: v8.28.0
+    hooks:
+      - id: gitleaks
