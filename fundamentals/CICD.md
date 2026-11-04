@@ -48,7 +48,7 @@ Developer laptop (Python + uv)
 > **3.1 Version Control -- [Git Notes](./Documentations/git.md)**
 
 Git tracks source-code changes. GitHub Actions uses events such as
-`push` and `pull_request` to deCIde when to run workflows.
+`push` and `pull_request` to decide when to run workflows.
 
 > **3.2 Code Hygiene -- [Pre-Commit Notes](./Documentations/pre-commit.md)**
 
@@ -76,7 +76,7 @@ deploying.
 | Docker container | Running application process |
 
 A Dockerfile typically selects a base image, sets a working directory,
-copies dependency definitions, installs locked dependenCIes, copies
+copies dependency definitions, installs locked dependencies, copies
 source, documents a port, defines startup, and builds a versioned image.
 
 > *Note:* Examples assume a FastAPI application with `main.py`
@@ -130,9 +130,9 @@ on:
 
 ---
 
-> **3.7 Workflow Jobs, DependenCIes, and Parallel Execution**
+> **3.7 Workflow Jobs, Dependencies, and Parallel Execution**
 
-A workflow can contain multiple jobs. Jobs execute sequentially or in parallel depending on their dependenCIes. The `needs` keyword establishes dependenCIes.
+A workflow can contain multiple jobs. Jobs execute sequentially or in parallel depending on their dependencies. The `needs` keyword establishes dependencies.
 
 ```yaml
 jobs:
@@ -166,8 +166,8 @@ jobs:
              Deploy
 ```
 
-- Jobs without dependenCIes can run in parallel.
-- Jobs with `needs` wait for their dependenCIes.
+- Jobs without dependencies can run in parallel.
+- Jobs with `needs` wait for their dependencies.
 - A failed required job normally prevents dependent jobs from running.
 - Parallel execution can reduce pipeline time.
 
@@ -250,7 +250,7 @@ jobs:
           python-version: "3.12"
       - name: Install uv
         uses: astral-sh/setup-uv@v6
-      - name: Install dependenCIes
+      - name: Install dependencies
         run: uv sync --frozen
       - name: Ruff lint
         run: uv run ruff check .
@@ -320,7 +320,7 @@ GitHub Actions CD on self-hosted laptop <- pull exact image
 
 ## 5.2 Build Once, Deploy Many
 
-> **Core prinCIple:** Build an artifact once, validate it, and promote that exact artifact across environments.
+> **Core principle:** Build an artifact once, validate it, and promote that exact artifact across environments.
 
 ```text
 Source Code -> Build Docker Image -> Versioned Image
@@ -330,7 +330,7 @@ Source Code -> Build Docker Image -> Versioned Image
                                      `-> Production
 ```
 
-Rebuilding separately for each environment can produce different artifacts if dependenCIes, base images, or build inputs change. CI should build and publish one image; CD should deploy that exact image.
+Rebuilding separately for each environment can produce different artifacts if dependencies, base images, or build inputs change. CI should build and publish one image; CD should deploy that exact image.
 
 > **Image Tags Vs. Image Digests**
 
@@ -346,13 +346,13 @@ ghcr.io/user/python-CI-CD:a1b2c3d
 ghcr.io/user/python-CI-CD@sha256:...
 ```
 
-A tag can point to different images over time; a digest identifies speCIfic image content. The image tested and published by CI should be the same image deployed by CD.
+A tag can point to different images over time; a digest identifies specific image content. The image tested and published by CI should be the same image deployed by CD.
 
 ---
 
 ## 5.3 Caching In CI/CD
 
-CI pipelines repeatedly download dependenCIes and build Docker images. Caching avoids unnecessary repeated work.
+ci pipelines repeatedly download dependencies and build Docker images. Caching avoids unnecessary repeated work.
 
 | Cache | Purpose | Example |
 | --- | --- | --- |
@@ -360,7 +360,7 @@ CI pipelines repeatedly download dependenCIes and build Docker images. Caching a
 | Docker build cache | Reuse unchanged image layers | Docker BuildKit |
 | GitHub Actions cache | Reuse files between workflow runs | `actions/cache` |
 
-Benefits include faster workflows, reduced dependency download time, fewer repeated build operations, and improved CI effiCIency.
+Benefits include faster workflows, reduced dependency download time, fewer repeated build operations, and improved CI efficiency.
 
 ```yaml
 - name: Install UV
@@ -369,7 +369,7 @@ Benefits include faster workflows, reduced dependency download time, fewer repea
     enable-cache: true
 ```
 
-> **Important:** Caching is a performance optimization, not a correctness mechanism. The pipeline should remain reproduCIble when the cache is unavailable.
+> **Important:** Caching is a performance optimization, not a correctness mechanism. The pipeline should remain reproducible when the cache is unavailable.
 
 ---
 
@@ -381,7 +381,7 @@ Do not rely exclusively on `latest` for production deployments.
 | --- | --- |
 | `latest` | Mutable image reference |
 | `v1.0.0` | Release version |
-| `a1b2c3d` | SpeCIfic Git commit |
+| `a1b2c3d` | Specific Git commit |
 | `main` | Often a mutable branch-based reference |
 
 Commit-based tags identify the deployed source version and help with
@@ -429,7 +429,7 @@ jobs:
           python-version: "3.12"
       - name: Install uv
         uses: astral-sh/setup-uv@v6
-      - name: Install dependenCIes
+      - name: Install dependencies
         run: uv sync --frozen
       - name: Lint
         run: uv run ruff check .
@@ -506,7 +506,7 @@ the workflow token; private packages require appropriate permissions.
 
 1.  GitHub receives the push.
 2.  CI starts on a hosted runner.
-3.  uv installs dependenCIes; Ruff checks code; pytest runs tests.
+3.  uv installs dependencies; Ruff checks code; pytest runs tests.
 4.  Docker builds the image and pushes it to GHCR with the commit SHA.
 5.  The deployment job waits for CI.
 6.  The self-hosted runner pulls the exact image.
@@ -634,7 +634,7 @@ Prefer:
 docker compose up -d --force-recreate
 ```
 
-ReplaCIng a single container can still cause a short interruption. For
+Replacing a single container can still cause a short interruption. For
 zero-downtime deployments, consider blue-green deployment or a reverse
 proxy with multiple application instances.
 
@@ -654,7 +654,7 @@ ${{ secrets.GITHUB_TOKEN }}
 
 | File | Responsibility |
 | --- | --- |
-| `pyproject.toml` | Python project configuration and dependenCIes |
+| `pyproject.toml` | Python project configuration and dependencies |
 | `uv.lock` | Dependency version locking |
 | `.pre-commit-config.yaml` | Local Git commit checks |
 | `Dockerfile` | Image build instructions |
@@ -685,7 +685,7 @@ Docker build context.
   -----------------------------------------------------------------------
   Component                           Responsibility
   ----------------------------------- -----------------------------------
-  Developer                           Write code, manage dependenCIes,
+  Developer                           Write code, manage dependencies,
                                       run local checks, and push code
 
   GitHub                              Store source code and trigger
@@ -702,7 +702,7 @@ Docker build context.
   Docker Engine                       Run and manage containers
   -----------------------------------------------------------------------
 
-> **The central prinCIple of CI/CD:** Developers focus on writing code.
+> **The central principle of CI/CD:** Developers focus on writing code.
 > The pipeline automatically validates, packages, and deploys it
 > consistently and repeatably.
 
@@ -735,7 +735,7 @@ This reference section describes tools across the software delivery lifecycle. K
 | Poetry | Integrated dependency management and packaging | Python applications and libraries |
 | PDM | Modern Python packaging support | PEP-compliant Python projects |
 | pip | Standard Python package installer | Simple Python projects |
-| Conda | Manages Python and native dependenCIes | Data sCIence and sCIentific computing |
+| Conda | Manages Python and native dependencies | Data science and scientific computing |
 
 **Recommended:** UV.
 
@@ -752,7 +752,7 @@ This reference section describes tools across the software delivery lifecycle. K
 | Coverage | Coverage.py | pytest-cov | Measure test coverage |
 | Property testing | Hypothesis | — | Test generated inputs |
 
-Ruff combines several linting and formatting capabilities. mypy and Ruff solve different problems. Pre-commit runs configured checks; Pytest verifies behavior; Coverage.py measures which code tests exerCIse.
+Ruff combines several linting and formatting capabilities. mypy and Ruff solve different problems. Pre-commit runs configured checks; Pytest verifies behavior; Coverage.py measures which code tests exercise.
 
 **Recommended:** Ruff + Pre-commit + Pytest; add mypy and coverage later.
 
@@ -763,11 +763,11 @@ Ruff combines several linting and formatting capabilities. mypy and Ruff solve d
 | GitHub Actions | Native GitHub integration, hosted and self-hosted runners | GitHub repositories |
 | Jenkins | Extensive plugins and customization | Enterprise/self-managed pipelines |
 | GitLab CI/CD | Integrated source control and CI/CD | GitLab repositories |
-| CIrcleCI | Managed CI platform and reusable configuration | Dedicated CI environments |
+| circleci | Managed CI platform and reusable configuration | Dedicated CI environments |
 | Azure Pipelines | Microsoft and Azure integration | Microsoft-centric organizations |
 | Buildkite | Flexible agent-based execution | Custom build infrastructure |
 
-GitHub Actions is the best fit for this project. Jenkins is useful for highly customized self-managed automation; GitLab CI/CD fits GitLab-hosted code; CIrcleCI fits teams preferring managed CI.
+GitHub Actions is the best fit for this project. Jenkins is useful for highly customized self-managed automation; GitLab ci/CD fits GitLab-hosted code; circleci fits teams preferring managed CI.
 
 **Recommended:** Learn GitHub Actions deeply before exploring alternatives.
 
@@ -776,7 +776,7 @@ GitHub Actions is the best fit for this project. Jenkins is useful for highly cu
 | Tool | Advantages | Use Case |
 | --- | --- | --- |
 | Docker | Mature ecosystem and broad tooling | Container build and execution |
-| Podman | Daemonless and rootless operation | Security-consCIous Linux environments |
+| Podman | Daemonless and rootless operation | Security-conscious Linux environments |
 | containerd | Lightweight container runtime | Container infrastructure |
 | Buildah | Builds OCI-compatible images | Container image building |
 
@@ -850,7 +850,7 @@ Terraform -> Create Linux VM -> Ansible -> Install/configure Docker -> Deploy ap
 | pip-audit | Python dependency vulnerability scanning |
 | Trivy | Container image and infrastructure scanning |
 | Docker Scout | Container image security analysis |
-| Gitleaks | Detect acCIdentally committed secrets |
+| Gitleaks | Detect accidentally committed secrets |
 | Checkov | Infrastructure configuration security scanning |
 
 ```bash
@@ -886,7 +886,7 @@ Start with Docker logs and resource monitoring; introduce Prometheus and Grafana
 | --- | --- |
 | Slack | CI/CD notifications |
 | Microsoft Teams | Team deployment notifications |
-| PagerDuty | Production inCIdent alerts |
+| PagerDuty | Production incident alerts |
 | Email | Build and deployment status notifications |
 
 Examples include CI failure, successful image publication, completed deployment, failed health check, or application unavailability.
@@ -911,15 +911,15 @@ A self-hosted runner executes workflows on your own machine. Do not execute untr
 
 > **10.3 Supply-Chain Security**
 
-Software supply-chain security helps ensure application code, dependenCIes, and build artifacts are trustworthy.
+Software supply-chain security helps ensure application code, dependencies, and build artifacts are trustworthy.
 
 | Concept | Purpose |
 | --- | --- |
-| SBOM | Software Bill of Materials; lists components and dependenCIes |
+| SBOM | Software Bill of Materials; lists components and dependencies |
 | Image scanning | Detect vulnerabilities in container images |
-| Image signing | Verify image authentiCIty and integrity |
+| Image signing | Verify image authenticity and integrity |
 | Dependency auditing | Detect vulnerable packages |
-| Secret scanning | Detect acCIdentally exposed credentials |
+| Secret scanning | Detect accidentally exposed credentials |
 
 Tools such as Trivy, Gitleaks, and Cosign can help implement these practices.
 
