@@ -51,12 +51,12 @@ Developer laptop (Python + uv)
 
 ## 3. Fundamental CI/CD Concepts
 
-> **3.1 Version Control -- [Git Notes](./documentations/git.md)**
+> **3.1 Version Control -- [Git Notes](../resources/documentations/git.md)**
 
 Git tracks source-code changes. GitHub Actions uses events such as
 `push` and `pull_request` to decide when to run workflows.
 
-> **3.2 Code Hygiene -- [Pre-Commit Notes](./documentations/pre-commit.md)**
+> **3.2 Code Hygiene -- [Pre-Commit Notes](../resources/documentations/pre-commit.md)**
 
 Pre-commit runs configured checks before Git creates a commit. A failed
 check stops the commit until the issue is fixed.
@@ -64,7 +64,7 @@ check stops the commit until the issue is fixed.
 > **Important:** Pre-commit does not run the full test suite unless
 > configured to. CI should also run the full tests.
 
-> **3.3 Automated Testing -- [Pytest Notes](./documentations/pytest.md)**
+> **3.3 Automated Testing -- [Pytest Notes](../resources/documentations/pytest.md)**
 
 Tests verify expected behavior. CI runs tests because developers may
 forget, local environments may differ, and changes from others may
@@ -73,7 +73,7 @@ deploying.
 
 > **3.4 Containerization**
 
-> **Docker -- [Docker Notes](./documentations/docker.md)**
+> **Docker -- [Docker Notes](../resources/documentations/docker.md)**
 
 | Concept | Responsibility |
 | --- | --- |
@@ -88,13 +88,13 @@ source, documents a port, defines startup, and builds a versioned image.
 > *Note:* Examples assume a FastAPI application with `main.py`
 > containing an `app` object.
 
-> **Docker Compose -- [Docker Compose Notes](./documentations/docker.md)**
+> **Docker Compose -- [Docker Compose Notes](../resources/documentations/docker.md)**
 
 Compose defines an application in `compose.yaml` rather than requiring
 long Docker commands. It simplifies consistent container management and
 service replacement.
 
-> **3.5 GitHub Actions -- [GitHub Actions Notes](./documentations/git-hub-actions.md)**
+> **3.5 GitHub Actions -- [GitHub Actions Notes](../resources/documentations/git-hub-actions.md)**
 
 GitHub Actions runs workflows in response to events:
 
