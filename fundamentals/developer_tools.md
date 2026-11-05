@@ -14,4 +14,4 @@ Let's understand the basics and fundamentals of software development projects, a
 | [pre-commit](https://github.com/pre-commit/pre-commit) | A framework that automatically runs linting, formatting, and validation checks before Git commits. | [Official pre-commit Docs](https://pre-commit.com/) |[My pre-commit Notes](./documentations/pre-commit.md) |
 | [tox](https://github.com/tox-dev/tox) | Automates testing across multiple Python versions and environments to verify application compatibility. | [Official tox Docs](https://tox.wiki/) | |
 | [Sphinx](https://github.com/sphinx-doc/sphinx) | A documentation generator that creates structured technical documentation from Python docstrings and reStructuredText or Markdown files. | [Official Sphinx Docs](https://www.sphinx-doc.org/) | |
-
+| [Gitleaks](https://github.com/gitleaks/gitleaks) | A secrets detection tool that scans Git repositories, commits, and files for accidentally exposed sensitive information, such as API keys, passwords, access tokens, and private credentials. Helps prevent secrets from being committed to version control. | [Official Gitleaks Docs](https://github.com/gitleaks/gitleaks) | |
