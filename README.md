@@ -1,18 +1,10 @@
 # AI Engineering Journey
 
-A practical, project-driven journey into LLM Engineering, Retrieval-Augmented Generation (RAG), AI Agents and Production AI Systems using Python.
-
-About This Repository
-
-This repository documents my journey towards becoming proficient in AI Engineering.
-
-The focus is to implement practical solutions, experimenting with different technologies, and building production-oriented AI applications, not just a mock-up or prototype.
-
-Rather than focusing only on frameworks, iam exploring the complete AI engineering lifecycle: from LLM fundamentals to agent orchestration, evaluation, security and deployment.
+Documenting My AI Learning Journey and Projects
 
 # Learning Objectives
 
-* Understand Large Language Models and transformer architectures.
+* Understand LLM and transformer architectures.
 * Develop LLM-powered applications using Python.
 * Build basic and advanced RAG pipelines.
 * Work with embeddings and vector databases.
