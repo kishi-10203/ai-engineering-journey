@@ -3,14 +3,13 @@
 > ## Contents
 > 
 > 1. Introduction to Docker
-> 2. Why Docker?
-> 3. Virtual Machines vs Containers
-> 4. Docker Architecture
-> 5. Important Docker Terminologies
-> 6. Docker Installation
-> 7. Understanding Docker Images
-> 8. Understanding Docker Containers
-> 9. Dockerfile Fundamentals
+> 2. Virtual Machines vs Containers
+> 3. Docker Architecture
+> 4. Important Docker Terminologies
+> 5. Understanding Docker Images
+> 6. Understanding Docker Containers
+> 7. Dockerfile Fundamentals
+> 9. Build Your First Docker Image
 > 10. Docker Image Layers and Caching
 > 11. Docker Volumes and Storage
 > 12. Docker Networking
@@ -24,7 +23,7 @@
 > 20. Docker Best Practices
 > 21. Frequently Used Docker Commands
 > 22. Practical Hands-on Exercises
-> 23. Common Docker Interview Questions
+> 23. Docker Interview Questions
 > 24. Quick Revision Cheat Sheet
 > 
 
@@ -1321,7 +1320,7 @@ Investigate the actual permission boundary instead of blindly running everything
 
 ---
 
-## 19. Docker Security Fundamentals
+> ## 19. Docker Security Fundamentals
 
 Security is a critical part of containerization.
 
@@ -1812,21 +1811,22 @@ After completing Docker fundamentals, follow this learning sequence:
 
 ---
 
-## Conclusion
+> ## Conclusion
 
 Docker simplifies application packaging, distribution, and deployment by providing a consistent containerized environment.
 
-The most important concepts to understand thoroughly are:
-
-- Docker Architecture
-- Images vs Containers
-- Dockerfile Instructions
-- Image Layers and Caching
-- Volumes and Persistent Storage
-- Docker Networking
-- Docker Compose
-- Container Lifecycle
-- Security and Best Practices
+> The most important concepts to understand thoroughly are:
+> 
+> - Docker Architecture
+> - Images vs Containers
+> - Dockerfile Instructions
+> - Image Layers and Caching
+> - Volumes and Persistent Storage
+> - Docker Networking
+> - Docker Compose
+> - Container Lifecycle
+> - Security and Best Practices
+> 
 
 Once these fundamentals are clear, learning Kubernetes, container orchestration, and container-based CI/CD pipelines becomes significantly easier.
 
