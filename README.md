@@ -4,11 +4,11 @@ Documenting My AI Learning Journey and Projects
 
 # Learning Objectives
 
-* Understand LLM and transformer architectures.
+* Understanding LLM and transformer architectures.
 * Develop LLM-powered applications using Python.
 * Build basic and advanced RAG pipelines.
 * Work with embeddings and vector databases.
-* Implement AI agents and tool calling.
+* Implementing AI agents and tool calling.
 * Develop stateful agent workflows using LangGraph.
 * Explore multi-agent systems and MCP.
 * Evaluate RAG quality and agent reliability.
