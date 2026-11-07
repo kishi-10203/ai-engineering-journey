@@ -4,7 +4,7 @@
 
 ## Learning Progress
 
-- [~] Software Engineering and Delivery
+[~] Software Engineering and Delivery
 - [ ] Python
 - [ ] Large Language Models (LLM)
 - [ ] Embeddings
