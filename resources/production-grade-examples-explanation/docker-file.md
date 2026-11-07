@@ -1,15 +1,5 @@
 # Production-Grade Dockerfile: Complete Explanation and Advanced Concepts
 
-> **Audience:** Python developers learning Docker for backend
-> engineering, data engineering, and cloud deployment.\
-> **Example stack:** Python 3.12, FastAPI, Uvicorn, Docker multi-stage
-> builds.\
-> **Goal:** Understand every instruction in the supplied Dockerfile, run
-> it locally, identify what is missing for a real production deployment,
-> and learn the next-level Docker concepts.
-
-------------------------------------------------------------------------
-
 ## Table of contents
 
 1.  [What this Dockerfile builds](#1-what-this-dockerfile-builds)
@@ -30,13 +20,12 @@
     checklist](#9-production-deployment-checklist)
 10. [Practical exercises](#10-practical-exercises)
 11. [Knowledge assessment](#11-knowledge-assessment)
-12. [Recommended learning sequence](#12-recommended-learning-sequence)
 
 ------------------------------------------------------------------------
 
 # 1. What this Dockerfile builds
 
-The supplied Dockerfile builds a container image for a Python web
+The Dockerfile builds a container image for a Python web
 application. The application is served by **Uvicorn**, an ASGI server,
 and uses **FastAPI** as its web framework.
 
@@ -77,6 +66,8 @@ STAGE 1: BUILDER
        |
        | Copy only required artifacts
        v
+
+
 STAGE 2: RUNTIME
   Fresh Python base image
        |
@@ -89,22 +80,109 @@ STAGE 2: RUNTIME
   Health check + Uvicorn
 ```
 
-The builder stage prepares dependencies. The runtime stage contains the
-files needed to execute the application. The final image is based on the
-last stage; the builder filesystem is not automatically included.
+* The *builder* stage **prepares dependencies.** 
+* The *runtime* stage contains the **files needed to execute the application.** 
+
+> The final image is based on the last stage; the builder filesystem is not automatically included.
 
 ## 1.1 Important vocabulary
 
 | Term           | Meaning |
 |----------------|---------|
-| Image          | A packaged, layered filesystem and configuration used to create containers. |
-| Container      | A running or stopped instance created from an image. |
 | Build context  | Files made available to Docker during a build, usually the directory passed to `docker build`. |
 | Layer          | An image filesystem change associated with a build instruction. |
 | Build stage    | A stage that starts with a `FROM` instruction. |
 | Registry       | A service that stores and distributes images, such as Docker Hub or Amazon ECR. |
 | Runtime        | The environment and processes used when the container runs. |
 | Artifact       | A build output that is transferred to a later stage, such as a wheel file or compiled binary. |
+
+## 1.2 Single Stage Build vs Multi Stage Build
+
+| Comparison | Single-Stage Build | Multi-Stage Build |
+|---|---|---|
+| Build Process | Build and runtime operations happen in the same stage. | Build and runtime operations happen in separate stages. |
+| Base Image | Uses the same image for building and running. | Can use different base images for builder and runtime. |
+| Build Tools & Dependencies | Build tools and dependencies may remain in the final image. | Build tools are restricted to the builder stage and excluded from the final image when not required at runtime. |
+| Runtime Dependencies | Installed in the same stage. | Only required runtime dependencies are installed in the final stage. |
+| Docker Image Size | Usually larger. | Usually smaller. |
+| Security | Potentially larger attack surface due to unnecessary tools and packages. | Reduced attack surface by excluding unnecessary build tools. |
+| Artifact Management | Artifacts are generated and used in the same stage. | Artifacts are transferred between stages using `COPY --from`. |
+| Build Isolation | Less separation between build and runtime environments. | Better separation between build and runtime environments. |
+| Maintenance | Simple for small applications. | Better organization for complex production applications. |
+| CI/CD Integration | Can be integrated into CI/CD pipelines. | Well suited for optimized CI/CD pipelines. |
+| Production Usage | Suitable for simple applications and basic use cases. | Preferred for many production-grade applications. |
+
+## 1.3 Multi-Stage Build
+
+Multi-stage build generally consists of two main stages:
+
+**Builder Phase** – Responsible for preparing the application and its dependencies.
+
+**Runner (Runtime) Phase** – Responsible for running the application in a clean, optimized production environment.
+
+> The main objective is to keep build-time tools and unnecessary dependencies out of the final production Docker image.
+
+### 1.3.1 Builder Phase
+The Builder Phase is responsible for preparing everything required to run the application.
+
+#### Functions of Builder Phase
+
+1. **Base Image Selection:** Pulls the required base image, such as Python, Node.js, or Java.
+
+2. **Install Build Dependencies:** Installs compilers, development libraries, and other tools required to build the application.
+
+3. **Read Dependency Files:** Reads files such as requirements.txt, package.json, or pom.xml to identify application dependencies.
+
+4. **Download and Build Packages:** Downloads dependencies and compiles packages if required.
+
+5. **Generate Artifacts:** Produces the necessary build artifacts, such as Python wheel files (.whl), Java JAR files, or compiled application binaries.
+
+6. **Prepare Artifacts for Transfer:** Stores the generated artifacts in a directory so they can be copied into the next stage.
+
+
+#### Output of Builder Phase 
+
+```text
+/wheels/
+    fastapi.whl
+    uvicorn.whl
+    sqlalchemy.whl
+    other dependencies.whl
+```
+
+
+### 1.3.2 Runner - Runtime Phase 
+The Runner Phase is responsible for executing the application.
+
+It starts with a fresh, clean base image and takes only the required artifacts from the builder phase.
+
+#### Functions of the Runner Phase
+
+1. **Fresh Base Image:** Starts with a clean and lightweight base image, such as python:3.12-slim.
+
+2. **Copy Build Artifacts:** Copies only the required artifacts from the builder phase using COPY --from=builder.
+
+3. **Install Runtime Dependencies:** Installs the required application dependencies using the copied artifacts.
+
+4. **Copy Application Source Code:** Copies the application code, configuration files, and other required resources.
+
+5. **Configure Security:** Creates a non-root user and runs the application with minimum required privileges.
+
+6. **Configure Health Checks:** Defines health checks to monitor whether the application is responding correctly.
+
+7. **Start the Application:** Executes the application using a server such as Uvicorn for FastAPI.
+
+
+#### Output of the Runner Phase 
+```text 
+A final production-ready Docker image containing:
+* Python runtime.
+* Required application dependencies.
+* Application source code.
+* Runtime configuration.
+* Non-root user configuration.
+* Application startup command.
+```
 
 ------------------------------------------------------------------------
 
