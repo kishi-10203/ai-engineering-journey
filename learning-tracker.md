@@ -4,7 +4,7 @@
 
 ## Learning Progress
 
-- [~] Software Engineering and Delivery
+- [x] Software Engineering and Delivery
 - [ ] Python
 - [ ] Large Language Models (LLM)
 - [ ] Embeddings
@@ -20,7 +20,7 @@
 # 1. Software Engineering and Delivery
 
 - [x] Developer Tools
-- [~] CI/CD
+- [x] CI/CD
 - [ ] Clean Coding Architecture
 - [ ] Design Patterns
 - [ ] SOLID Principles
@@ -31,7 +31,7 @@
 
 - [x] UV
 - [ ] Git
-- [~] Docker
+- [x] Docker
 - [x] Pre-commit
 - [ ] GitHub Actions
 
@@ -127,35 +127,3 @@ Before marking a topic as completed, verify the following:
 > * Mark [~] when start learning a topic.
 > * Mark [x] when understood it and have implemented something practical.
 >
-
----
-
-# Learning Notes Template
-
-Template to track understanding of individual topics.
-
-## Topic:
-
-- **Status:** Not Started / In Progress / Completed
-- **Date Started:**
-- **Date Completed:**
-
-### What I Learned
--
-
-### Practical Implementation
--
-
-### Key Takeaways
--
-
-### What I Still Don't Understand
--
-
-### Resources / References
--
-
-### Next Steps
--
-
----
