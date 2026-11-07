@@ -4,7 +4,7 @@
 
 ## Learning Progress
 
-- [x] Software Engineering and Delivery
+- [x] Software Engineering and Delivery ( learning )
 - [ ] Python
 - [ ] Large Language Models (LLM)
 - [ ] Embeddings
@@ -31,7 +31,7 @@
 
 - [x] UV
 - [ ] Git
-- [x] Docker
+- [x] Docker ( learning )
 - [x] Pre-commit
 - [ ] GitHub Actions
 
