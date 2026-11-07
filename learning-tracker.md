@@ -4,7 +4,7 @@
 
 ## Learning Progress
 
-- [ ] Software Engineering and Delivery
+- [~] Software Engineering and Delivery
 - [ ] Python
 - [ ] Large Language Models (LLM)
 - [ ] Embeddings
@@ -19,8 +19,8 @@
 
 # 1. Software Engineering and Delivery
 
-- [ ] Developer Tools
-- [ ] CI/CD
+- [x] Developer Tools
+- [~] CI/CD
 - [ ] Clean Coding Architecture
 - [ ] Design Patterns
 - [ ] SOLID Principles
@@ -29,10 +29,10 @@
 
 # 2. Resources and Documentation
 
-- [ ] UV
+- [x] UV
 - [ ] Git
-- [ ] Docker
-- [ ] Pre-commit
+- [~] Docker
+- [x] Pre-commit
 - [ ] GitHub Actions
 
 # 3. Python
