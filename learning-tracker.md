@@ -20,7 +20,7 @@
 # 1. Software Engineering and Delivery
 
 - [x] Developer Tools
-- [x] CI/CD
+- [x] CI/CD ( learning )
 - [ ] Clean Coding Architecture
 - [ ] Design Patterns
 - [ ] SOLID Principles
@@ -31,7 +31,7 @@
 
 - [x] UV
 - [ ] Git
-- [x] Docker ( learning )
+- [x] Docker
 - [x] Pre-commit
 - [ ] GitHub Actions
 
