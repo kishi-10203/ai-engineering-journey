@@ -151,7 +151,7 @@ Multi-stage build generally consists of two main stages:
 
 # 2. Project structure and sample application
 
-Create this project:
+sample project structure:
 
 ``` text
 python-production-api/

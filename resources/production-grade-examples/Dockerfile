@@ -1,4 +1,3 @@
-
 # syntax=docker/dockerfile:1
 
 # ============================================================
@@ -13,16 +12,25 @@ ENV PYTHONDONTWRITEBYTECODE=1
 # Ensure Python logs are immediately sent to stdout/stderr
 ENV PYTHONUNBUFFERED=1
 
+# Configure UV
+ENV UV_COMPILE_BYTECODE=1 \
+    UV_LINK_MODE=copy \
+    UV_PROJECT_ENVIRONMENT=/opt/venv
+
 # Set working directory
 WORKDIR /build
 
-# Upgrade pip and install dependencies
-COPY requirements.txt .
+# Copy UV executable from official UV image
+COPY --from=ghcr.io/astral-sh/uv:0.8.15 /uv /uvx /bin/
 
-RUN python -m pip install --upgrade pip && \
-    pip wheel --no-cache-dir \
-    --wheel-dir /wheels \
-    -r requirements.txt
+# Copy dependency definition and lockfile
+COPY pyproject.toml uv.lock ./
+
+# Install production dependencies into virtual environment
+RUN uv sync \
+    --locked \
+    --no-dev \
+    --no-install-project
 
 
 # ============================================================
@@ -34,10 +42,9 @@ FROM python:3.12-slim AS runtime
 # Python runtime configuration
 ENV PYTHONDONTWRITEBYTECODE=1 \
     PYTHONUNBUFFERED=1 \
-    PIP_NO_CACHE_DIR=1 \
-    PIP_DISABLE_PIP_VERSION_CHECK=1 \
     APP_ENV=production \
-    PORT=8000
+    PORT=8000 \
+    PATH="/opt/venv/bin:$PATH"
 
 # Set application directory
 WORKDIR /app
@@ -50,22 +57,13 @@ RUN groupadd --system app && \
     --no-create-home \
     app
 
-# Copy built dependencies from builder stage
-COPY --from=builder /wheels /wheels
-COPY requirements.txt .
-
-# Install dependencies without accessing package repositories
-RUN python -m pip install \
-    --no-cache-dir \
-    --no-index \
-    --find-links=/wheels \
-    -r requirements.txt && \
-    rm -rf /wheels
+# Copy prepared virtual environment from builder stage
+COPY --from=builder /opt/venv /opt/venv
 
 # Copy application source code
 COPY --chown=app:app app/ ./app/
 
-# Change ownership of the application directory
+# Ensure application directory ownership
 RUN chown -R app:app /app
 
 # Switch to non-root user
