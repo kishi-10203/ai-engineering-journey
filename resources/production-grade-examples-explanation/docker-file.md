@@ -29,7 +29,7 @@ The Dockerfile builds a container image for a Python web
 application. The application is served by **Uvicorn**, an ASGI server,
 and uses **FastAPI** as its web framework.
 
-At a high level:
+At a high level - sample application workflow:
 
 ``` text
 Browser / API client
@@ -85,18 +85,9 @@ STAGE 2: RUNTIME
 
 > The final image is based on the last stage; the builder filesystem is not automatically included.
 
-## 1.1 Important vocabulary
+---
 
-| Term           | Meaning |
-|----------------|---------|
-| Build context  | Files made available to Docker during a build, usually the directory passed to `docker build`. |
-| Layer          | An image filesystem change associated with a build instruction. |
-| Build stage    | A stage that starts with a `FROM` instruction. |
-| Registry       | A service that stores and distributes images, such as Docker Hub or Amazon ECR. |
-| Runtime        | The environment and processes used when the container runs. |
-| Artifact       | A build output that is transferred to a later stage, such as a wheel file or compiled binary. |
-
-## 1.2 Single Stage Build vs Multi Stage Build
+## 1.1 Single Stage Build vs Multi Stage Build
 
 | Comparison | Single-Stage Build | Multi-Stage Build |
 |---|---|---|
@@ -112,7 +103,9 @@ STAGE 2: RUNTIME
 | CI/CD Integration | Can be integrated into CI/CD pipelines. | Well suited for optimized CI/CD pipelines. |
 | Production Usage | Suitable for simple applications and basic use cases. | Preferred for many production-grade applications. |
 
-## 1.3 Multi-Stage Build
+---
+
+## 1.2 Multi-Stage Build
 
 Multi-stage build generally consists of two main stages:
 
@@ -123,7 +116,7 @@ Multi-stage build generally consists of two main stages:
 > The main objective is to keep build-time tools and unnecessary dependencies out of the final production Docker image.
 
 
-### 1.3.1 Builder Phase vs Runner (Runtime) Phase
+### 1.2.1 Builder Phase vs Runner (Runtime) Phase
 
 | Aspect | Builder Phase | Runner (Runtime) Phase |
 | --- | --- | --- |
@@ -139,7 +132,7 @@ Multi-stage build generally consists of two main stages:
 | Execution | Does not execute the application as the final runtime environment. | Starts the application using a server such as Uvicorn for FastAPI. |
 | Output | Produces build artifacts and stores them in a directory for transfer to the next stage. | Produces the final Docker image containing the application and its runtime dependencies. |
 
-### 1.3.2 Output of Each Phase
+### 1.2.2 Output of Each Phase
 
 | Builder Phase Output | Runner Phase Output |
 | --- | --- |
