@@ -155,9 +155,12 @@ sample project structure:
 
 ``` text
 python-production-api/
+│
 ├── Dockerfile
 ├── .dockerignore
-├── requirements.txt
+├── pyproject.toml
+├── uv.lock
+│
 └── app/
     ├── __init__.py
     └── main.py
@@ -174,7 +177,8 @@ uvicorn[standard]==0.34.2
 
 These versions are illustrative. For an actual deployment, select
 currently supported versions, test them, and lock the complete
-dependency graph, including transitive dependencies.
+The health-check URL above uses `/health/live`, matching the sample
+dependency graph, including transitive dependencies using UV.
 
 ## 2.2 app/main.py
 
@@ -256,16 +260,25 @@ ENV PYTHONDONTWRITEBYTECODE=1
 # Ensure Python logs are immediately sent to stdout/stderr
 ENV PYTHONUNBUFFERED=1
 
+# Configure UV
+ENV UV_COMPILE_BYTECODE=1 \
+    UV_LINK_MODE=copy \
+    UV_PROJECT_ENVIRONMENT=/opt/venv
+
 # Set working directory
 WORKDIR /build
 
-# Upgrade pip and install dependencies
-COPY requirements.txt .
+# Copy UV executable from official UV image
+COPY --from=ghcr.io/astral-sh/uv:0.8.15 /uv /uvx /bin/
 
-RUN python -m pip install --upgrade pip && \
-    pip wheel --no-cache-dir \
-    --wheel-dir /wheels \
-    -r requirements.txt
+# Copy dependency definition and lockfile
+COPY pyproject.toml uv.lock ./
+
+# Install production dependencies into virtual environment
+RUN uv sync \
+    --locked \
+    --no-dev \
+    --no-install-project
 
 
 # ============================================================
@@ -277,10 +290,9 @@ FROM python:3.12-slim AS runtime
 # Python runtime configuration
 ENV PYTHONDONTWRITEBYTECODE=1 \
     PYTHONUNBUFFERED=1 \
-    PIP_NO_CACHE_DIR=1 \
-    PIP_DISABLE_PIP_VERSION_CHECK=1 \
     APP_ENV=production \
-    PORT=8000
+    PORT=8000 \
+    PATH="/opt/venv/bin:$PATH"
 
 # Set application directory
 WORKDIR /app
@@ -293,22 +305,13 @@ RUN groupadd --system app && \
     --no-create-home \
     app
 
-# Copy built dependencies from builder stage
-COPY --from=builder /wheels /wheels
-COPY requirements.txt .
-
-# Install dependencies without accessing package repositories
-RUN python -m pip install \
-    --no-cache-dir \
-    --no-index \
-    --find-links=/wheels \
-    -r requirements.txt && \
-    rm -rf /wheels
+# Copy prepared virtual environment from builder stage
+COPY --from=builder /opt/venv /opt/venv
 
 # Copy application source code
 COPY --chown=app:app app/ ./app/
 
-# Change ownership of the application directory
+# Ensure application directory ownership
 RUN chown -R app:app /app
 
 # Switch to non-root user
@@ -322,7 +325,7 @@ HEALTHCHECK --interval=30s \
     --timeout=5s \
     --start-period=10s \
     --retries=3 \
-    CMD ["python", "-c", "import urllib.request; urllib.request.urlopen('http://127.0.0.1:8000/health/live', timeout=3)"]
+    CMD ["python", "-c", "import urllib.request; urllib.request.urlopen('http://127.0.0.1:8000/health', timeout=3)"]
 
 # Graceful termination signal
 STOPSIGNAL SIGTERM
