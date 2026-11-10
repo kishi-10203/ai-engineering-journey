@@ -116,73 +116,43 @@ STAGE 2: RUNTIME
 
 Multi-stage build generally consists of two main stages:
 
-**Builder Phase** – Responsible for preparing the application and its dependencies.
+- **Builder Phase** – Focuses on preparing, downloading, compiling, and generating the artifacts required by the application.
 
-**Runner (Runtime) Phase** – Responsible for running the application in a clean, optimized production environment.
+- **Runner (Runtime) Phase** – Focuses on creating a lightweight, secure runtime environment by using the required artifacts from the Builder Phase and executing the application.
 
 > The main objective is to keep build-time tools and unnecessary dependencies out of the final production Docker image.
 
-### 1.3.1 Builder Phase
-The Builder Phase is responsible for preparing everything required to run the application.
 
-#### Functions of Builder Phase
+### 1.3.1 Builder Phase vs Runner (Runtime) Phase
 
-1. **Base Image Selection:** Pulls the required base image, such as Python, Node.js, or Java.
+| Aspect | Builder Phase | Runner (Runtime) Phase |
+| --- | --- | --- |
+| Purpose | Prepares everything required to run the application. | Executes the application in a production environment. |
+| Base Image Selection | Pulls the required base image, such as Python, Node.js, or Java. | Starts with a fresh, clean, and lightweight base image, such as `python:3.12-slim`. |
+| Dependencies | Installs build dependencies such as compilers, development libraries, and build tools. | Installs only the dependencies required to execute the application. |
+| Dependency Files | Reads files such as `requirements.txt`, `package.json`, or `pom.xml` to identify application dependencies. | Uses the prepared artifacts from the Builder Phase. |
+| Package Management | Downloads and builds packages, compiling them if required. | Installs the required application dependencies using the copied artifacts. |
+| Build Artifacts | Generates artifacts such as Python wheel files (`.whl`), Java JAR files, or compiled binaries. | Copies the required build artifacts from the Builder Phase using `COPY --from=builder`. |
+| Application Source Code | Generally focuses on preparing dependencies and build artifacts. | Copies application source code, configuration files, and other required resources. |
+| Security Configuration | May require elevated build permissions to install tools and compile packages. | Creates a non-root user and runs the application with minimum required privileges. |
+| Health Checks | Not typically responsible for application health monitoring. | Defines health checks to monitor whether the application is responding correctly. |
+| Execution | Does not execute the application as the final runtime environment. | Starts the application using a server such as Uvicorn for FastAPI. |
+| Output | Produces build artifacts and stores them in a directory for transfer to the next stage. | Produces the final Docker image containing the application and its runtime dependencies. |
 
-2. **Install Build Dependencies:** Installs compilers, development libraries, and other tools required to build the application.
+### 1.3.2 Output of Each Phase
 
-3. **Read Dependency Files:** Reads files such as requirements.txt, package.json, or pom.xml to identify application dependencies.
-
-4. **Download and Build Packages:** Downloads dependencies and compiles packages if required.
-
-5. **Generate Artifacts:** Produces the necessary build artifacts, such as Python wheel files (.whl), Java JAR files, or compiled application binaries.
-
-6. **Prepare Artifacts for Transfer:** Stores the generated artifacts in a directory so they can be copied into the next stage.
-
-
-#### Output of Builder Phase 
-
-```text
-/wheels/
-    fastapi.whl
-    uvicorn.whl
-    sqlalchemy.whl
-    other dependencies.whl
-```
-
-
-### 1.3.2 Runner - Runtime Phase 
-The Runner Phase is responsible for executing the application.
-
-It starts with a fresh, clean base image and takes only the required artifacts from the builder phase.
-
-#### Functions of the Runner Phase
-
-1. **Fresh Base Image:** Starts with a clean and lightweight base image, such as python:3.12-slim.
-
-2. **Copy Build Artifacts:** Copies only the required artifacts from the builder phase using COPY --from=builder.
-
-3. **Install Runtime Dependencies:** Installs the required application dependencies using the copied artifacts.
-
-4. **Copy Application Source Code:** Copies the application code, configuration files, and other required resources.
-
-5. **Configure Security:** Creates a non-root user and runs the application with minimum required privileges.
-
-6. **Configure Health Checks:** Defines health checks to monitor whether the application is responding correctly.
-
-7. **Start the Application:** Executes the application using a server such as Uvicorn for FastAPI.
+| Builder Phase Output | Runner Phase Output |
+| --- | --- |
+| `/wheels/` | Final Docker image |
+| `fastapi.whl` | Python runtime |
+| `uvicorn.whl` | Installed application dependencies |
+| `sqlalchemy.whl` | Application source code |
+| `other dependencies.whl` | Runtime configurations and security settings |
 
 
-#### Output of the Runner Phase 
-```text 
-A final production-ready Docker image containing:
-* Python runtime.
-* Required application dependencies.
-* Application source code.
-* Runtime configuration.
-* Non-root user configuration.
-* Application startup command.
-```
+> **In simple terms**: Builder Phase builds the application dependencies and artifacts, whereas Runner Phase uses those artifacts to create the final production-ready Docker image and run the application.
+
+
 
 ------------------------------------------------------------------------
 
