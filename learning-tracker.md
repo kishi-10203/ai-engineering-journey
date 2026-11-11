@@ -26,6 +26,7 @@
 - [ ] SOLID Principles
 - [ ] Testing Strategies
 - [ ] Application Deployment
+- [ ] Application Security
 
 # 2. Resources and Documentation
 
