@@ -6,6 +6,8 @@
 	- [1.1 Why Docker](#11-why-docker)
 	- [1.2 Container vs Virtual Machine](#12-container-vs-virtual-machine)
 	- [1.3 Docker Architecture](#13-docker-architecture)
+  - [1.4 Docker Objects](#14-docker-objects)
+  - [1.5 Docker Terminologies](#15-docker-terminologies)
 
 2.  [Docker Image](#2-docker-image)
 	- [2.1 Image Layers and Union Filesystem](#21-image-layers-and-union-filesystem)
@@ -96,58 +98,22 @@
 
 ---
 
-> ## 1. Introduction to Docker
+> ## 1. What is Docker?
 
-### 1.1 What is Docker?
+Docker is an *open-source* containerization platform used to build, package, distribute, and run applications inside isolated environments called containers.
 
-Docker is an open-source containerization platform used to build, package, distribute, and run applications inside isolated environments called containers.
-
-Docker allows developers to package an application along with all its dependencies, libraries, configuration files, and runtime requirements into a single portable unit.
+Docker packages an application along with all its dependencies, libraries, configuration files, and runtime requirements into a *single portable unit.*
 
 This portable unit is called a **Docker Image**.
 
 A running instance of a Docker image is called a **Docker Container**.
 
-#### Simple Definition
+### 1.1 Why Docker
 
-Docker is a platform that enables applications to run consistently across different environments by packaging the application and its dependencies into containers.
-
-#### Example
-
-Consider an application developed using Python.
-
-The application requires:
-
-- Python 3.12
-- Flask framework
-- PostgreSQL client libraries
-- Application source code
-- Environment configurations
-
-Without Docker, these dependencies must be installed and configured manually on every machine.
-
-With Docker, we package everything into a Docker image.
-
-The same image can then run on:
-
-- Developer's laptop
-- Testing environment
-- Staging environment
-- Production server
-- Cloud platforms
-
-This ensures consistency across environments.
-
-### 1.2 Why Was Docker Introduced?
-
-Before containerization became popular, developers frequently faced environment-related issues.
-
-A common problem was:
-
-"It works on my machine, but it doesn't work on the server."
+Before containerization, developers faced *environment-related issues.*
+> "It works on my machine, but it doesn't work on the server."
 
 This happened because different environments had different:
-
 - Operating system versions
 - Programming language versions
 - Installed dependencies
@@ -155,11 +121,9 @@ This happened because different environments had different:
 - Environment variables
 - System configurations
 
-Docker solves this problem by providing a standardized application environment.
+**Docker solves this problem by providing a standardized application environment.**
 
-### 1.3 Benefits of Docker
-
-1. **Portability:** Containers can run consistently across compatible Docker environments.
+1. **Portability:** Containers run consistently across differnt environments.
 2. **Isolation:** Applications run in isolated containers.
 3. **Lightweight:** Containers share the host operating system kernel.
 4. **Scalability:** Multiple container instances can be created easily.
@@ -168,34 +132,30 @@ Docker solves this problem by providing a standardized application environment.
 7. **Environment Consistency:** Development, testing, and production environments can use the same image.
 8. **Version Control:** Docker images can be tagged and versioned.
 
----
 
-> ## 2. Virtual Machines vs Containers
+### 1.2 Container vs Virtual Machine
 
-Before understanding Docker architecture, we must understand the difference between Virtual Machines and Containers.
+#### 1.2.1 Virtual Machine
+Before Containerization DevOps teams used a single highly capable Server and deployed multiple applications on it.
 
-### 2.1 What is a Virtual Machine?
+They split up the single server into multiple virtual machines with the help of a **Hypervisor.**
 
-A Virtual Machine (VM) is a software-based computer that runs an operating system on top of virtualized hardware.
-
-A hypervisor is responsible for creating and managing virtual machines.
-
-Examples:
-
-- VMware
-- VirtualBox
-- Microsoft Hyper-V
-
-Each virtual machine generally contains:
+Each virtual machine generally contained:
 
 - Guest Operating System
 - System Libraries
 - Application Dependencies
 - Application
 
-### 2.2 What is a Container?
+> #### Virtual Machine Architecture
+> Hardware → Host OS → Hypervisor → Guest OS → Application
 
-A container is an isolated process that runs an application using the host operating system kernel.
+
+#### 1.2.2 Container 
+
+A Container is a running instance of a *docker-image*.
+
+it is comparatively lighter than VM's and shares the **Host OS kernel**
 
 Containers package:
 
@@ -205,140 +165,96 @@ Containers package:
 - Dependencies
 - Configuration
 
-Unlike virtual machines, containers do not require a separate guest operating system kernel.
+> #### Container Architecture
+> Hardware → Host OS → Container Runtime → Containers → Applications
 
-### 2.3 VM vs Container Architecture
 
-#### Virtual Machine Architecture
-
-Hardware → Host OS → Hypervisor → Guest OS → Application
-
-#### Container Architecture
-
-Hardware → Host OS → Container Runtime → Containers → Applications
-
-### 2.4 Difference Between VM and Container
-
+#### Container vs VM's
 | Feature | Virtual Machine | Container |
 | --- | --- | --- |
-| Virtualization | Hardware-level | OS-level |
-| Operating System | Separate guest OS | Shares host kernel |
-| Size | Generally large | Generally smaller |
-| Startup | Usually slower | Usually faster |
-| Resource Usage | Higher | Lower |
-| Isolation | Strong OS boundary | Process-level isolation |
-| Portability | More heavyweight | Highly portable |
+| **Virtualization** | Hardware-level | OS-level |
+| **Operating System** | Separate guest OS | Shares host kernel |
+| **Size** | Generally large | Generally smaller |
+| **Startup** | Usually slower | Usually faster |
+| **Resource Usage** | Higher | Lower |
+| **Isolation** | Strong OS boundary | Process-level isolation |
+| **Portability** | More heavyweight | Highly portable |
 | Example | VMware VM | Docker Container |
 
 > **Important:** Containers are lightweight, but they are not equivalent to virtual machines in terms of security isolation.
 
----
+### 1.3 Docker Architecture
+Docker follows a **Client-Server Architecture** consisting of:
 
-> ## 3. Docker Architecture
+| Component | Function |
+|---|---|
+| **Docker Client** | Accepts user commands (`docker run`, `docker pull`). |
+| **Docker Daemon (`dockerd`)** | Processes commands and manages Docker objects. |
+| **Docker Host** | Machine where Docker Daemon and containers run. |
+| **Docker Registry** | Stores Docker images (e.g., Docker Hub, ECR). |
+| **Docker Objects** | Images, containers, networks and volumes managed by Docker. |
 
-Docker follows a client-server architecture.
 
-Its major components are:
+#### 1.3.1 Docker Architecture Workflow
 
-1. Docker Client
-2. Docker Daemon
-3. Docker Host
-4. Docker Registry
-5. Docker Objects
+1. User executes a Docker command through Docker CLI.
+2. Docker Client sends the request to Docker Daemon through Docker API.
+3. Docker Daemon processes the request.
+4. If required, Docker Daemon communicates with Docker Registry to pull or push images.
+5. Docker Daemon creates and manages Docker Objects (Images, Containers, Networks, Volumes).
+6. Containers run the application using the specified image.
 
-### 3.1 Docker Client
+> `User → Docker Client → Docker Daemon → Docker Objects → Application Running`
 
-The Docker Client is the interface through which users interact with Docker.
 
-It accepts commands and communicates with the Docker daemon through the Docker API.
+### 1.4 Docker Objects
 
-Example:
+| Docker Object | Definition |
+|---|---|
+| **Docker Image** | A read-only template used to create containers. |
+| **Docker Container** | A running or stopped instance created from a Docker image. |
+| **Docker Network** | Allows containers to communicate with one another and external systems. |
+| **Docker Volume** | A mechanism used to persist data outside a container's writable layer. |
 
-```bash
-docker run nginx
-docker ps
-docker images
-docker pull ubuntu
-```
 
-The Docker CLI is commonly used as the client.
+### 1.5 Docker Terminologies
 
-### 3.2 Docker Daemon (dockerd)
+| Terminology | Definition |
+|---|---|
+| **Docker Image** | A read-only template used to create containers. |
+| **Docker Container** | A running or stopped instance created from a Docker image. |
+| **Docker Network** | Allows containers to communicate with one another and external systems. |
+| **Docker Volume** | A mechanism used to persist data outside a container's writable layer. |
+| **Dockerfile** | A text file containing instructions used to build a Docker image. |
+| **Docker Compose** | A tool used to define and manage multi-container applications through a YAML configuration file. |
+| **Docker Registry** | A storage and distribution system for Docker images. |
+| **Docker Repository** | A collection of related images, commonly organized by application or project. |
+| **Docker Tag** | Identifies a particular version or variant of an image. |
+| **Docker Engine** | Core technology responsible for building and running Docker containers. |
+| **Docker CLI** | Command-line interface used to interact with Docker. |
+| **Docker API** | Interface through which clients communicate with the Docker daemon. |
+| **Docker Daemon (`dockerd`)** | Background service responsible for managing Docker objects. |
+| **Docker Host** | Machine where Docker runs and containers are hosted. |
+| **Docker Hub** | Cloud-based registry used to store and distribute Docker images. |
+| **Image Layer** | Each Docker image consists of multiple layers representing filesystem changes. |
+| **Container Layer** | Writable layer added on top of image layers when a container is created. |
+| **Docker Context** | Defines the Docker endpoint and configuration used by the CLI to communicate with a Docker daemon. |
+| **Docker Build** | Process of building a Docker image using a Dockerfile or other build instructions. |
+| **Docker Pull** | Downloads an image from a registry. |
+| **Docker Push** | Uploads an image to a registry. |
+| **Bind Mount** | Mounts a file or directory from the host machine into a container. |
+| **Port Mapping** | Maps a container port to a host port to allow external access. |
+| **Environment Variables** | Pass configuration values to applications running inside containers. |
+| **Container Runtime** | Software responsible for running containers. |
+| **Restart Policy** | Defines whether a container should restart automatically under specified conditions. |
+| **Health Check** | Checks whether an application inside a container is functioning correctly. |
+| **Volume Driver** | Determines how and where Docker volumes are stored. |
 
-The Docker Daemon is a background service responsible for managing Docker objects.
-
-Its responsibilities include:
-
-- Building Docker images
-- Creating containers
-- Running containers
-- Managing networks
-- Managing volumes
-- Communicating with registries
-
-The daemon process is generally called `dockerd`.
-
-### 3.3 Docker Host
-
-The Docker Host is the machine where Docker runs.
-
-It contains the Docker daemon and the resources required to run containers.
-
-### 3.4 Docker Registry
-
-A Docker Registry stores and distributes Docker images.
-
-Examples:
-
-- Docker Hub
-- Amazon Elastic Container Registry (ECR)
-- GitHub Container Registry (GHCR)
-- Google Artifact Registry
-- Azure Container Registry (ACR)
-
-### 3.5 Docker Architecture Workflow
-
-When we execute:
-
-```bash
-docker run nginx
-```
-
-The following process takes place:
-
-1. Docker CLI receives the command.
-2. Docker Client communicates with Docker Daemon.
-3. Docker Daemon checks whether the requested image exists locally.
-4. If the image does not exist, Docker pulls it from a registry.
-5. Docker creates a container using the image.
-6. Docker starts the container.
-7. The application inside the container starts running.
-
-> **Important:** Docker Client and Docker Daemon are separate architectural components, even when they run on the same machine.
 
 ---
 
-> ## 4. Important Docker Terminologies
 
-Understanding these terms is essential before working with Docker.
-
-| Docker Concept | Definition | Example / Purpose |
-|---|---|---|
-| **Docker Image** | A read-only template used to create containers. | Contains base OS files, application code, dependencies, libraries, runtime, and configuration. Example: `docker pull nginx` downloads the Nginx image. |
-| **Docker Container** | A running or stopped instance created from a Docker image. | Example: `docker run nginx` creates and starts a container using the Nginx image. |
-| **Dockerfile** | A text file containing instructions used to build a Docker image. | Defines instructions such as `FROM`, `WORKDIR`, `COPY`, `RUN`, and `CMD`. |
-| **Docker Volume** | A mechanism used to persist data outside a container's writable layer. | Allows data to survive container deletion and recreation. |
-| **Docker Network** | A mechanism that allows containers to communicate with one another and with external systems. | Enables communication between frontend, backend, and database containers. |
-| **Docker Compose** | A tool used to define and manage multi-container applications through a YAML configuration file. | Allows us to define frontend, backend, and database services in one file. |
-| **Docker Registry** | A storage and distribution system for Docker images. | Used to store and distribute Docker images. |
-| **Docker Repository** | A collection of related images, commonly organized by application or project. | Examples: `nginx`, `ubuntu`, `python`, `redis`, `postgres`. |
-| **Docker Tag** | Used to identify a particular version or variant of an image. | Examples: `nginx:latest`, `nginx:1.27`, `python:3.12-slim`, `ubuntu:24.04`. |
-
----
-
-> ## 5. Understanding Docker Images
-
-### 5.1 What is a Docker Image?
+> ## 2. Docker Image
 
 A Docker image is an immutable, layered filesystem template that contains everything required to run an application.
 
