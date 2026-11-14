@@ -6,8 +6,8 @@
 	- [1.1 Why Docker](#11-why-docker)
 	- [1.2 Container vs Virtual Machine](#12-container-vs-virtual-machine)
 	- [1.3 Docker Architecture](#13-docker-architecture)
-  - [1.4 Docker Objects](#14-docker-objects)
-  - [1.5 Docker Terminologies](#15-docker-terminologies)
+  	- [1.4 Docker Objects](#14-docker-objects)
+ 	- [1.5 Docker Terminologies](#15-docker-terminologies)
 
 2.  [Docker Image](#2-docker-image)
 	- [2.1 Image Layers and Union Filesystem](#21-image-layers-and-union-filesystem)
