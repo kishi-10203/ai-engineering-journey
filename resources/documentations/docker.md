@@ -178,7 +178,7 @@ Containers package:
 > Hardware → Host OS → Container Runtime → Containers → Applications
 
 
-#### Container vs VM's
+#### 1.2.3 Container vs VM's
 | Feature | Virtual Machine | Container |
 | --- | --- | --- |
 | **Virtualization** | Hardware-level | OS-level |
@@ -269,9 +269,79 @@ Docker follows a **Client-Server Architecture** consisting of:
 
 ## 2. Docker Image
 
-A Docker image is an immutable, layered filesystem template that contains everything required to run an application.
+A Docker image is an immutable artifact that contains everything required to run an application.
 
-Images are generally built using a Dockerfile.
+Images are generally built using a `Dockerfile`.
+
+Images are *layered filesystem template*, they are built by layers defined in the `Dockerfile`.
+
+### 2.1 Image Layers and Union Filesystem
+
+Docker images are built using *multiple read-only layers* stacked on top of each other. Docker uses a technology called a *Union Filesystem (UnionFS)* to combine these layers and make them appear as one unified filesystem.
+
+Conceptually, the image consists of:
+
+```text
++----------------------------------+
+| Layer 5: CMD                     |
+| Container startup configuration  |
++----------------------------------+
+| Layer 4: COPY                    |
+| index.html                       |
++----------------------------------+
+| Layer 3: RUN                     |
+| Nginx installed                  |
++----------------------------------+
+| Layer 2: RUN                     |
+| Package indexes updated          |
++----------------------------------+
+| Layer 1: FROM                    |
+| Ubuntu base image                |
++----------------------------------+
+```
+
+**Important:** `Image layers` are read-only once created. Docker doesn't modify existing image layers when building a new image. Instead, it adds new layers.
+
+Docker also has `container layers` that are writable.
+
+> **Note:** Not every Dockerfile instruction creates a filesystem layer. For example, CMD and ENV generally contribute image configuration rather than filesystem layers.
+
+#### 2.1.1 What Happens When a Container Starts 
+
+When Docker creates a container from an image, it adds a special layer called the **`Container Writable Layer`** on top of the read-only **`**image layers`**.
+
+```text
++----------------------------------+
+| Container Writable Layer         |
+|                                  |
+| Changes made while container     |
+| is running                       |
++----------------------------------+
+| Image Layer 3                    |
+| Application files                |
++----------------------------------+
+| Image Layer 2                    |
+| Installed packages               |
++----------------------------------+
+| Image Layer 1                    |
+| Base operating system            |
++----------------------------------+
+```
+
+#### 2.1.2 Image Layers vs Container Writable Layer
+
+| Feature | Image Layers | Container Writable Layer |
+|---|---|---|
+| `Access` | Read-only | Read/write |
+| `Created during` | Image build | Container creation |
+| `Shared between containers` | Yes | No, each container has its own |
+| `Changes` | Cannot be modified in place | Can be modified |
+| `Lifetime` | Until image/layer is removed | Until container is removed |
+| `Persistence` | Image persists | Removed with container |
+
+
+
+
 
 | Docker Command | Description | Example |
 |---|---|---|
