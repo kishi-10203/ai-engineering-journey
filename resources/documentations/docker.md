@@ -98,7 +98,7 @@
 
 ---
 
-> ## 1. What is Docker?
+## 1. What is Docker?
 
 Docker is an *open-source* containerization platform used to build, package, distribute, and run applications inside isolated environments called containers.
 
@@ -123,15 +123,16 @@ This happened because different environments had different:
 
 **Docker solves this problem by providing a standardized application environment.**
 
-1. **Portability:** Containers run consistently across differnt environments.
-2. **Isolation:** Applications run in isolated containers.
-3. **Lightweight:** Containers share the host operating system kernel.
-4. **Scalability:** Multiple container instances can be created easily.
-5. **Faster Deployment:** Applications can be packaged and deployed consistently.
-6. **Resource Efficiency:** Containers generally consume fewer resources than full virtual machines.
-7. **Environment Consistency:** Development, testing, and production environments can use the same image.
-8. **Version Control:** Docker images can be tagged and versioned.
-
+>
+> 1. **Portability:** Containers run consistently across differnt environments.
+> 2. **Isolation:** Applications run in isolated containers.
+> 3. **Lightweight:** Containers share the host operating system kernel.
+> 4. **Scalability:** Multiple container instances can be created easily.
+> 5. **Faster Deployment:** Applications can be packaged and deployed consistently.
+> 6. **Resource Efficiency:** Containers generally consume fewer resources than full virtual machines.
+> 7. **Environment Consistency:** Development, testing, and production environments can use the same image.
+> 8. **Version Control:** Docker images can be tagged and versioned.
+>
 
 ### 1.2 Container vs Virtual Machine
 
