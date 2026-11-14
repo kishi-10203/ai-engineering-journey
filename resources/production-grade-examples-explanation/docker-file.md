@@ -12,7 +12,7 @@
 5.  [Build, run, inspect, and test](#5-build-run-inspect-and-test)
 6.  [Advanced concepts missing from the
     example](#6-advanced-concepts-missing-from-the-example)
-7.  [A stronger production-oriented
+7.  [A stronger production-oriented.
     Dockerfile](#7-a-stronger-production-oriented-dockerfile)
 8.  [Docker Compose: run the API with PostgreSQL and
     Redis](#8-docker-compose-run-the-api-with-postgresql-and-redis)

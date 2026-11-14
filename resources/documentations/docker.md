@@ -1,31 +1,98 @@
-# Docker Fundamentals
+# Docker 
 
-> ## Contents
-> 
-> 1. Introduction to Docker
-> 2. Virtual Machines vs Containers
-> 3. Docker Architecture
-> 4. Important Docker Terminologies
-> 5. Understanding Docker Images
-> 6. Understanding Docker Containers
-> 7. Dockerfile Fundamentals
-> 9. Build Your First Docker Image
-> 10. Docker Image Layers and Caching
-> 11. Docker Volumes and Storage
-> 12. Docker Networking
-> 13. Docker Registry and Docker Hub
-> 14. Docker Compose
-> 15. Docker Environment Variables
-> 16. Docker Container Lifecycle
-> 17. Docker Resource Management
-> 18. Docker Logs and Debugging
-> 19. Docker Security Fundamentals
-> 20. Docker Best Practices
-> 21. Frequently Used Docker Commands
-> 22. Practical Hands-on Exercises
-> 23. Docker Interview Questions
-> 24. Quick Revision Cheat Sheet
-> 
+## Table of contents
+
+1.  [What is Docker](#1-what-is-docker)
+	- [1.1 Why Docker](#11-why-docker)
+	- [1.2 Container vs Virtual Machine](#12-container-vs-virtual-machine)
+	- [1.3 Docker Architecture](#13-docker-architecture)
+
+2.  [Docker Image](#2-docker-image)
+	- [2.1 Image Layers and Union Filesystem](#21-image-layers-and-union-filesystem)
+	- [2.2 Dockerfile](#22-dockerfile)
+	- [2.3 Dockerfile Instructions](#23-dockerfile-instructions)
+	- [2.4 Image Lifecycle](#24-image-lifecycle)
+	- [2.5 Image Building Approaches](#25-image-building-approaches)
+		- [2.5.1 Traditional Builds](#251-traditional-builds)
+		- [2.5.2 Buildkit Builds](#252-buildkit-builds)
+		- [2.5.3 Multi Stage Builds](#253-multistage-builds)
+		- [2.5.4 Multi Platform Builds](#254-multi-platform-builds)
+		- [2.5.5 Buildx Builds](#255-buildx-builds)
+	- [2.6 BuildKit Capabilities](#26-buildkit-capabilities)
+		- [2.6.1 Build Caching](#261-build-caching)
+		- [2.6.2 Parallel Build Execution](#262-parallel-build-execution)
+		- [2.6.3 Build Mounts](#263-build-mounts)
+		- [2.6.4 Build Arguments and Variables](#264-build-arguments-and-variables)
+		- [2.6.5 Build Secret Management](#265-build-secret-management)
+		- [2.6.6 Build Attestations](#266-build-attestations)
+		- [2.6.7 Efficient Build Context Handling](#267-efficient-build-context-handling)
+		- [2.6.8 External Build Outputs](#268-external-build-outputs)
+		- [2.6.9 SSH Forwarding](#269-ssh-forwarding)
+		- [2.6.10 Remote & Distributed Builds](#2610-remote-distributed-builds)
+	- [2.7 Image Security Hardening Practices](#27-image-security-hardening-practices)
+	- [2.8 Versioning Docker Images](#28-versioning-docker-images)
+		- [2.8.1 Semantic Versioning](#281-semantic-versioning)
+		- [2.8.2 Git Commit SHA Versioning](#282-git-commit-sha-versioning)
+		- [2.8.3 Build Number Versioning](#283-build-number-versioning)
+		- [2.8.4 Image Digest Versioning](#284-image-digest-versioning)
+	- [2.9 Enterprise Image Tagging Strategies](#29-enterprise-image-tagging-strategies)
+	- [2.10 Image Promotion Across Environments](#210-image-promotion-across-environments)
+	- [2.11 Secure Image versioning & Management practices](#211-secure-image-versioning-management-practices)
+
+3.  [Docker Container](#3-docker-container)
+	- [3.1 Image vs Container](#31-image-vs-container)
+	- [3.2 Container Lifecycle and States](#32-container-lifecycle-and-states)
+	- [3.3 Docker Compose](#33-docker-compose)
+	- [3.4 Docker Compose commands](#34-docker-compose-commands)
+	- [3.5 Container Health Checks](#35-container-health-checks)
+	- [3.6 Docker Container Security](#36-docker-container-security)
+		- [3.6.1 Linux Capabilities](#361-linux-capabilities)
+		- [3.6.2 Root vs Non Root Containers](#362-root-vs-non-root-containers)
+		- [3.6.3 Read only Root Filesystem](#363-read-only-root-filesystem)
+		- [3.6.4 Seccomp](#364-seccomp)
+		- [3.6.5 AppArmor](#365-apparmor)
+		- [3.6.6 Resource Restrictions](#366-resource-restrictions)
+		- [3.6.7 Container Vulnerability Scanning](#367-container-vulnerability-scanning)
+	- [3.7 Container Monitoring & Logging](#37-container-monitoring-logging)
+		- [3.7.1 Container Logs](#371-container-logs)
+		- [3.7.2 Logging Drivers](#372-logging-drivers)
+		- [3.7.3 Container Metrics](#373-container-metrics)
+		- [3.7.4 Stats](#374-stats)
+		- [3.7.5 Resource Monitoring](#375-resource-monitoring)
+		- [3.7.6 Centralized Logging](#376-centralized-logging)
+		- [3.7.7 Monitoring With Prometheus and Grafana](#377-monitoring-with-prometheus-and-grafana)
+	- [3.8 Incident Management and Reporting](#38-incident-management-and-reporting)
+	- [3.9 Automated Incident Remediation](#39-automated-incident-remediation)
+
+4.  [Docker Networking](#4-docker-networking)
+	- [4.1 Types of Docker Network](#41-types-of-docker-network)
+	- [4.2 Docker Networking Commands](#42-docker-networking-commands)
+	- [4.3 Port Mapping](#43-port-mapping)
+	- [4.4 DNS Resolution between Containers](#44-dns-resolution-between-containers)
+	- [4.5 Enterprise Grade Networking Concepts](#45-enterprise-grade-networking-concepts)
+		- [4.5.1 Container IP Address](#451-container-ip-address)
+		- [4.5.2 Subnet](#452-subnet)
+		- [4.5.3 Gateway](#453-gateway)
+		- [4.5.4 NAT](#454-nat)
+		- [4.5.5 DNS](#455-dns)
+		- [4.5.6 Firewall](#456-firewall)
+		- [4.5.7 Reverse Proxy](#457-reverse-proxy)
+		- [4.5.8 Load Balancer](#458-load-balancer)
+		- [4.5.9 VLAN](#459-vlan)
+
+5.  [Docker Storage](#5-docker-storage)
+	- [5.1 Container Writable Layer](#51-container-writable-layer)
+	- [5.2 Docker Volumes](#52-docker-volumes)
+	- [5.3 Bind Mounts](#53-bind-mounts)
+	- [5.4 tmpfs Mounts](#54-tmpfs-mounts)
+	- [5.5 Volume Drivers](#55-volume-drivers)
+	- [5.6 Volume Lifecycle](#56-volume-lifecycle)
+	- [5.7 Storage Backup and Recovery](#57-storage-backup-and-recovery)
+	- [5.8 Storage Performance Considerations](#58-storage-performance-considerations)
+
+6.  [Docker Troubleshooting](#6-docker-troubleshooting)
+
+7.  [Practice](#7-practice)
 
 ---
 
