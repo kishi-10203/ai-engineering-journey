@@ -96,6 +96,10 @@
 
 7.  [Practice](#7-practice)
 
+ 
+  
+   
+    
 ---
 
 ## 1. What is Docker?
@@ -107,6 +111,8 @@ Docker packages an application along with all its dependencies, libraries, confi
 This portable unit is called a **Docker Image**.
 
 A running instance of a Docker image is called a **Docker Container**.
+
+---
 
 ### 1.1 Why Docker
 
@@ -123,16 +129,17 @@ This happened because different environments had different:
 
 **Docker solves this problem by providing a standardized application environment.**
 
->
-> 1. **Portability:** Containers run consistently across differnt environments.
-> 2. **Isolation:** Applications run in isolated containers.
-> 3. **Lightweight:** Containers share the host operating system kernel.
-> 4. **Scalability:** Multiple container instances can be created easily.
-> 5. **Faster Deployment:** Applications can be packaged and deployed consistently.
-> 6. **Resource Efficiency:** Containers generally consume fewer resources than full virtual machines.
-> 7. **Environment Consistency:** Development, testing, and production environments can use the same image.
-> 8. **Version Control:** Docker images can be tagged and versioned.
->
+
+1. **Portability:** Containers run consistently across differnt environments.
+2. **Isolation:** Applications run in isolated containers.
+3. **Lightweight:** Containers share the host operating system kernel.
+4. **Scalability:** Multiple container instances can be created easily.
+5. **Faster Deployment:** Applications can be packaged and deployed consistently.
+6. **Resource Efficiency:** Containers generally consume fewer resources than full virtual machines.
+7. **Environment Consistency:** Development, testing, and production environments can use the same image.
+8. **Version Control:** Docker images can be tagged and versioned.
+
+---
 
 ### 1.2 Container vs Virtual Machine
 
@@ -184,6 +191,8 @@ Containers package:
 
 > **Important:** Containers are lightweight, but they are not equivalent to virtual machines in terms of security isolation.
 
+---
+
 ### 1.3 Docker Architecture
 Docker follows a **Client-Server Architecture** consisting of:
 
@@ -207,6 +216,7 @@ Docker follows a **Client-Server Architecture** consisting of:
 
 > `User → Docker Client → Docker Daemon → Docker Objects → Application Running`
 
+---
 
 ### 1.4 Docker Objects
 
@@ -217,6 +227,7 @@ Docker follows a **Client-Server Architecture** consisting of:
 | **Docker Network** | Allows containers to communicate with one another and external systems. |
 | **Docker Volume** | A mechanism used to persist data outside a container's writable layer. |
 
+---
 
 ### 1.5 Docker Terminologies
 
@@ -255,7 +266,7 @@ Docker follows a **Client-Server Architecture** consisting of:
 ---
 
 
-> ## 2. Docker Image
+## 2. Docker Image
 
 A Docker image is an immutable, layered filesystem template that contains everything required to run an application.
 
