@@ -612,7 +612,7 @@ Docker also has `container layers` that are writable.
 
 #### 2.1.1 What Happens When a Container Starts 
 
-When Docker creates a container from an image, it adds a special layer called the **`Container Writable Layer`** on top of the read-only **`**image layers`**.
+When Docker creates a container from an image, it adds a special layer called the **`Container Writable Layer`** on top of the read-only **`image layers`**.
 
 ```text
 +----------------------------------+
@@ -827,49 +827,308 @@ STOPSIGNAL SIGTERM
 CMD ["uvicorn", "app.main:app", "--host", "0.0.0.0", "--port", "8000", "--workers", "2"]
 ```
 
+---
 
+### 2.3 Image Lifecycle
 
+```text
 
+Developer Team
+    |
+    v
+Push Code to Source Code Repository
+(GitHub / GitLab / Bitbucket)
+    |
+    v
+CI Pipeline Triggered
+    |
+    v
+Checkout Source Code
+    |
+    v
+Run Tests and Code Quality Checks
+    |
+    v
+Build Docker Image
+    |
+    v
+Tag Docker Image
+    |
+    v
+Scan Docker Image
+    |
+    v
+Verify Security Policies
+    |
+    v
+Record Version and Build Metadata
+    |
+    v
+Push Docker Image to Container Registry
+(ECR / ACR / GAR / Docker Hub)
+    |
+    v
+Capture Unique Image Digest
+(sha256:...)
+    |
+    v
+Generate / Verify Image Provenance
+(Optional but Recommended)
+    |
+    v
+CD Pipeline Triggered
+    |
+    v
+Deploy Same Image Digest to DEV
+    |
+    v
+Health Checks and Testing
+    |
+    v
+Promote Same Image Digest to QA
+    |
+    v
+Integration and Regression Testing
+    |
+    v
+Promote Same Image Digest to STAGING
+    |
+    v
+Pre-Production Validation
+    |
+    v
+Promote Same Image Digest to PROD
+    |
+    v
+Production Monitoring and Validation
+    |
+    v
+Application Successfully Running
+```
 
-| Docker Command | Description | Example |
+---
+
+### 2.4 Image Building Approaches
+
+Different approaches offers different capabilities related to `build performance`, `caching`, `image size`, `architecture compatibility`, and `build optimization`.
+
+The five important approaches are:
+1. Traditional Docker Builds
+2. BuildKit Builds
+3. Multi-Stage Builds
+4. Multi-Platform Builds
+5. Buildx Builds
+
+---
+
+#### 2.4.1 Traditional Builds
+Traditional builds use the `Docker build process` to create images from a `Dockerfile`.
+
+They execute instructions sequentially and use the `build cache` to *reuse previously built layers* when possible.
+
+##### Characteristics:
+
+- Executes Dockerfile instructions in build order.
+- Uses layer-based build caching.
+- Creates intermediate image layers.
+- Supports standard Dockerfile instructions.
+- Traditionally uses the legacy Docker builder.
+
+#### Advantages:
+
+- Simple and easy to understand.
+- Suitable for basic Docker image builds.
+- Widely supported.
+
+#### Limitations:
+
+- Less efficient build processing than modern BuildKit in many scenarios.
+- Limited advanced caching and build capabilities.
+- Does not offer the same advanced parallel execution and cache export features as BuildKit.
+
+> **Note:** The legacy builder is deprecated in modern Docker Engine releases. Modern docker build generally uses BuildKit by default.
+
+---
+
+#### 2.4.2 BuildKit Builds
+BuildKit is Docker's `modern` build engine designed to improve `image-building performance`, `caching`, and `flexibility`.
+
+Advanced features such as `parallel execution`, `efficient caching`, and improved handling of `build secrets`.
+
+Default in modern Docker installations.
+
+#### Characteristics:
+
+- Supports parallel execution of independent build operations.
+- Provides improved build caching.
+- Supports cache imports and exports.
+- Supports secret and SSH mounts.
+- Supports efficient handling of intermediate build stages.
+- Supports advanced Dockerfile features.
+
+#### Advantages:
+
+- Faster builds in many scenarios.
+- Better cache management.
+- Improved security when handling build secrets.
+- More efficient build resource utilization.
+
+---
+
+#### 2.4.3 Multi-Stage Builds
+
+Primarily used to separate the application build environment from the final runtime environment.
+
+Application compilation may require `compilers`, `development libraries`, and `build tools`. These dependencies are often unnecessary when running the application.
+
+Multi-stage builds help exclude those unnecessary tools from the final image.
+
+#### Single Stage Build vs Multi Stage Build
+
+| Comparison | Single-Stage Build | Multi-Stage Build |
 |---|---|---|
-| **Pull an Image** | Downloads a Docker image from the configured registry. | `docker pull ubuntu` |
-| **Pull a Specific Version** | Downloads a specific version of a Docker image. | `docker pull ubuntu:24.04` |
-| **List Docker Images** | Displays all locally available Docker images. | `docker images` or `docker image ls` |
-| **Inspect an Image** | Displays detailed metadata about an image or container, depending on the object supplied. | `docker inspect nginx` |
-| **Inspect an Image Specifically** | Displays detailed metadata of a Docker image. | `docker image inspect nginx` |
-| **Remove an Image** | Removes a Docker image from the local system. | `docker rmi nginx` or `docker image rm nginx` |
+| Build Process | Build and runtime operations happen in the same stage. | Build and runtime operations happen in separate stages. |
+| Base Image | Uses the same image for building and running. | Can use different base images for builder and runtime. |
+| Build Tools & Dependencies | Build tools and dependencies may remain in the final image. | Build tools are restricted to the builder stage and excluded from the final image when not required at runtime. |
+| Runtime Dependencies | Installed in the same stage. | Only required runtime dependencies are installed in the final stage. |
+| Docker Image Size | Usually larger. | Usually smaller. |
+| Security | Potentially larger attack surface due to unnecessary tools and packages. | Reduced attack surface by excluding unnecessary build tools. |
+| Artifact Management | Artifacts are generated and used in the same stage. | Artifacts are transferred between stages using `COPY --from`. |
+| Build Isolation | Less separation between build and runtime environments. | Better separation between build and runtime environments. |
+| Maintenance | Simple for small applications. | Better organization for complex production applications. |
+| CI/CD Integration | Can be integrated into CI/CD pipelines. | Well suited for optimized CI/CD pipelines. |
+| Production Usage | Suitable for simple applications and basic use cases. | Preferred for many production-grade applications. |
+
+---
+
+#### Workflow
+
+``` text
+STAGE 1: BUILDER
+  Python base image
+       |
+  Read requirements.txt
+       |
+  Download/build wheel packages
+       |
+  Store wheels in /wheels
+       |
+       | Copy only required artifacts
+       v
+
+
+STAGE 2: RUNTIME
+  Fresh Python base image
+       |
+  Install packages from local wheels
+       |
+  Copy application source
+       |
+  Run as a non-root user
+       |
+  Health check + Uvicorn
+```
+
+* The *builder* stage **prepares dependencies.** 
+* The *runtime* stage contains the **files needed to execute the application.** 
+
+---
+
+#### Builder Phase vs Runner (Runtime) Phase
+
+| Aspect | Builder Phase | Runner (Runtime) Phase |
+| --- | --- | --- |
+| Purpose | Prepares everything required to run the application. | Executes the application in a production environment. |
+| Base Image Selection | Pulls the required base image, such as Python, Node.js, or Java. | Starts with a fresh, clean, and lightweight base image, such as `python:3.12-slim`. |
+| Dependencies | Installs build dependencies such as compilers, development libraries, and build tools. | Installs only the dependencies required to execute the application. |
+| Dependency Files | Reads files such as `requirements.txt`, `package.json`, or `pom.xml` to identify application dependencies. | Uses the prepared artifacts from the Builder Phase. |
+| Package Management | Downloads and builds packages, compiling them if required. | Installs the required application dependencies using the copied artifacts. |
+| Build Artifacts | Generates artifacts such as Python wheel files (`.whl`), Java JAR files, or compiled binaries. | Copies the required build artifacts from the Builder Phase using `COPY --from=builder`. |
+| Application Source Code | Generally focuses on preparing dependencies and build artifacts. | Copies application source code, configuration files, and other required resources. |
+| Security Configuration | May require elevated build permissions to install tools and compile packages. | Creates a non-root user and runs the application with minimum required privileges. |
+| Health Checks | Not typically responsible for application health monitoring. | Defines health checks to monitor whether the application is responding correctly. |
+| Execution | Does not execute the application as the final runtime environment. | Starts the application using a server such as Uvicorn for FastAPI. |
+| Output | Produces build artifacts and stores them in a directory for transfer to the next stage. | Produces the final Docker image containing the application and its runtime dependencies. |
+
+---
+
+#### Output of Each Phase
+
+| Builder Phase Output | Runner Phase Output |
+| --- | --- |
+| `/wheels/` | Final Docker image |
+| `fastapi.whl` | Python runtime |
+| `uvicorn.whl` | Installed application dependencies |
+| `sqlalchemy.whl` | Application source code |
+| `other dependencies.whl` | Runtime configurations and security settings |
+
+> **In simple terms**: Builder Phase builds the application dependencies and artifacts, whereas Runner Phase uses those artifacts to create the final production-ready Docker image and run the application.
+
+---
+
+#### 2.4.4 Multi-Platform Builds
+Multi-platform builds allow you to build images for multiple `CPU architectures` and operating system platforms.
+
+For example:
+- Linux AMD64 (linux/amd64)
+- Linux ARM64 (linux/arm64)
+- Linux ARM/v7 (linux/arm/v7)
+
+Docker builds the image for each specified platform and publishes a `multi-platform image index`(also called a manifest list in some contexts).
+
+#### Conceptually 
+
+```text
+
+             Docker Image
+                  |
+          Multi-Platform Index
+                  |
+          +-------+-------+
+          |               |
+          v               v
+      AMD64 Image      ARM64 Image
+          |               |
+          v               v
+      Intel/AMD       ARM Processors
+      Processors
+
+```
+
+When a user pulls the image, Docker selects the appropriate platform-specific image based on the target system.
+
+---
+
+#### Advantages:
+
+- Supports different CPU architectures.
+- Enables deployment across heterogeneous infrastructure.
+- Simplifies image distribution.
+- Maintains a common image name for multiple architectures.
+
+> **Important:** Multi-platform builds may use emulation, native builders, or cross-compilation. Not every application can be cross-compiled without additional configuration.
+
+---
+
+#### 2.4.5 Buildx Builds
+`Buildx` is a Docker `CLI plugin` that provides an extended build interface powered by `BuildKit`.
+
+supports advanced `image-building capabilities`, including:
+- Multi-platform builds.
+- Advanced caching.
+- Multiple builder instances.
+- Remote builders.
+- Build secrets and SSH forwarding.
+- Cache export and import.
+- Exporting build outputs to different destinations.
+
+
+
+
+
+
 
 > **Remember :** An image cannot normally be removed if an existing container depends on it.
-
-### 5.2 Image Naming Convention
-
-Docker image names generally follow this structure:
-
-```text
-registry/namespace/repository:tag
-```
-
-Example:
-
-```text
-docker.io/library/nginx:latest
-```
-
-Breakdown:
-
-- Registry: docker.io
-- Namespace: library
-- Repository: nginx
-- Tag: latest
-
-### 5.3 What is the Latest Tag?
-
-The `latest` tag is simply a conventional tag name.
-
-It does not guarantee that the image contains the newest software version.
-
-For production deployments, prefer explicit version tags or immutable image digests.
 
 ---
 
