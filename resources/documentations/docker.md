@@ -145,14 +145,14 @@ This happened because different environments had different:
 
 | Feature | Description |
 |---|---|
-| **`Portability`** | Containers run consistently across different environments. |
-| **`Isolation`** | Applications run in isolated containers. |
-| **`Lightweight`** | Containers share the host operating system kernel. |
-| **`Scalability`** | Multiple container instances can be created easily. |
-| **`Faster Deployment`** | Applications can be packaged and deployed consistently. |
-| **`Resource Efficiency`** | Containers generally consume fewer resources than full virtual machines. |
-| **`Environment Consistency`** | Development, testing, and production environments can use the same image. |
-| **`Version Control`** | Docker images can be tagged and versioned. |
+| `Portability` | Containers run consistently across different environments. |
+| `Isolation` | Applications run in isolated containers. |
+| `Lightweight` | Containers share the host operating system kernel. |
+| `Scalability` | Multiple container instances can be created easily. |
+| `Faster Deployment` | Applications can be packaged and deployed consistently. |
+| `Resource Efficiency` | Containers generally consume fewer resources than full virtual machines. |
+| `Environment Consistency` | Development, testing, and production environments can use the same image. |
+| `Version Control` | Docker images can be tagged and versioned. |
 
 ---
 
@@ -178,7 +178,7 @@ Each virtual machine generally contained:
 
 A Container is a running instance of a `docker-image`.
 
-it is comparatively lighter than VM's and shares the **`Host OS kernel`**
+it is comparatively lighter than VM's and shares the `Host OS kernel`.
 
 Containers package:
 
@@ -196,13 +196,13 @@ Containers package:
 #### 1.2.3 Container vs VM's
 | Feature | Virtual Machine | Container |
 | --- | --- | --- |
-| **`Virtualization`** | Hardware-level | OS-level |
-| **`Operating System`** | Separate guest OS | Shares host kernel |
-| **`Size`** | Generally large | Generally smaller |
-| **`Startup`** | Usually slower | Usually faster |
-| **`Resource Usage`** | Higher | Lower |
-| **`Isolation`** | Strong OS boundary | Process-level isolation |
-| **`Portability`** | More heavyweight | Highly portable |
+| `Virtualization` | Hardware-level | OS-level |
+| `Operating System` | Separate guest OS | Shares host kernel |
+| `Size` | Generally large | Generally smaller |
+| `Startup` | Usually slower | Usually faster |
+| `Resource Usage` | Higher | Lower |
+| `Isolation` | Strong OS boundary | Process-level isolation |
+| `Portability` | More heavyweight | Highly portable |
 | Example | VMware VM | Docker Container |
 
 > **Important:** Containers are lightweight, but they are not equivalent to virtual machines in terms of security isolation.
@@ -214,11 +214,11 @@ Docker follows a **`Client-Server Architecture`** consisting of:
 
 | Component | Function |
 |---|---|
-| **`Docker Client`** | Accepts user commands (`docker run`, `docker pull`). |
-| **`Docker Daemon`** (dockerd)| Processes commands and manages Docker objects. |
-| **`Docker Host`** | Machine where Docker Daemon and containers run. |
-| **`Docker Registry`** | Stores Docker images (e.g., Docker Hub, ECR). |
-| **`Docker Objects`** | Images, containers, networks and volumes managed by Docker. |
+| `Docker Client` | Accepts user commands (`docker run`, `docker pull`). |
+| `Docker Daemon` (dockerd)| Processes commands and manages Docker objects. |
+| `Docker Host` | Machine where Docker Daemon and containers run. |
+| `Docker Registry` | Stores Docker images (e.g., Docker Hub, ECR). |
+| `Docker Objects` | Images, containers, networks and volumes managed by Docker. |
 
 ---
 
@@ -239,10 +239,10 @@ Docker follows a **`Client-Server Architecture`** consisting of:
 
 | Docker Object | Definition |
 |---|---|
-| **`Docker Image`** | A read-only template used to create containers. |
-| **`Docker Container`** | A running or stopped instance created from a Docker image. |
-| **`Docker Network`** | Allows containers to communicate with one another and external systems. |
-| **`Docker Volume`** | A mechanism used to persist data outside a container's writable layer. |
+| `Docker Image` | A read-only template used to create containers. |
+| `Docker Container` | A running or stopped instance created from a Docker image. |
+| `Docker Network` | Allows containers to communicate with one another and external systems. |
+| `Docker Volume` | A mechanism used to persist data outside a container's writable layer. |
 
 ---
 
@@ -250,34 +250,34 @@ Docker follows a **`Client-Server Architecture`** consisting of:
 
 | Terminology | Definition |
 |---|---|
-| **`Docker Image`** | A read-only template used to create containers. |
-| **`Docker Container`** | A running or stopped instance created from a Docker image. |
-| **`Docker Network`** | Allows containers to communicate with one another and external systems. |
-| **`Docker Volume`** | A mechanism used to persist data outside a container's writable layer. |
-| **`Dockerfile`** | A text file containing instructions used to build a Docker image. |
-| **`Docker Compose`** | A tool used to define and manage multi-container applications through a YAML configuration file. |
-| **`Docker Registry`** | A storage and distribution system for Docker images. |
-| **`Docker Repository`** | A collection of related images, commonly organized by application or project. |
-| **`Docker Tag`** | Identifies a particular version or variant of an image. |
-| **`Docker Engine`** | Core technology responsible for building and running Docker containers. |
-| **`Docker CLI`** | Command-line interface used to interact with Docker. |
-| **`Docker API`** | Interface through which clients communicate with the Docker daemon. |
-| **`Docker Daemon`** (dockerd) | Background service responsible for managing Docker objects. |
-| **`Docker Host`** | Machine where Docker runs and containers are hosted. |
-| **`Docker Hub`** | Cloud-based registry used to store and distribute Docker images. |
-| **`Image Layer`** | Each Docker image consists of multiple layers representing filesystem changes. |
-| **`Container Layer`** | Writable layer added on top of image layers when a container is created. |
-| **`Docker Context`** | Defines the Docker endpoint and configuration used by the CLI to communicate with a Docker daemon. |
-| **`Docker Build`** | Process of building a Docker image using a Dockerfile or other build instructions. |
-| **`Docker Pull`** | Downloads an image from a registry. |
-| **`Docker Push`** | Uploads an image to a registry. |
-| **`Bind Mount`** | Mounts a file or directory from the host machine into a container. |
-| **`Port Mapping`** | Maps a container port to a host port to allow external access. |
-| **`Environment Variables`** | Pass configuration values to applications running inside containers. |
-| **`Container Runtime`** | Software responsible for running containers. |
-| **`Restart Policy`** | Defines whether a container should restart automatically under specified conditions. |
-| **`Health Check`** | Checks whether an application inside a container is functioning correctly. |
-| **`Volume Driver`** | Determines how and where Docker volumes are stored. |
+| `Docker Image` | A read-only template used to create containers. |
+| `Docker Container` | A running or stopped instance created from a Docker image. |
+| `Docker Network` | Allows containers to communicate with one another and external systems. |
+| `Docker Volume` | A mechanism used to persist data outside a container's writable layer. |
+| `Dockerfile` | A text file containing instructions used to build a Docker image. |
+| `Docker Compose` | A tool used to define and manage multi-container applications through a YAML configuration file. |
+| `Docker Registry` | A storage and distribution system for Docker images. |
+| `Docker Repository` | A collection of related images, commonly organized by application or project. |
+| `Docker Tag` | Identifies a particular version or variant of an image. |
+| `Docker Engine` | Core technology responsible for building and running Docker containers. |
+| `Docker CLI` | Command-line interface used to interact with Docker. |
+| `Docker API` | Interface through which clients communicate with the Docker daemon. |
+| `Docker Daemon` (dockerd) | Background service responsible for managing Docker objects. |
+| `Docker Host | Machine where Docker runs and containers are hosted. |
+| `Docker Hub` | Cloud-based registry used to store and distribute Docker images. |
+| `Image Layer` | Each Docker image consists of multiple layers representing filesystem changes. |
+| `Container Layer` | Writable layer added on top of image layers when a container is created. |
+| `Docker Context` | Defines the Docker endpoint and configuration used by the CLI to communicate with a Docker daemon. |
+| `Docker Build` | Process of building a Docker image using a Dockerfile or other build instructions. |
+| `Docker Pull` | Downloads an image from a registry. |
+| `Docker Push` | Uploads an image to a registry. |
+| `Bind Mount` | Mounts a file or directory from the host machine into a container. |
+| `Port Mapping` | Maps a container port to a host port to allow external access. |
+| `Environment Variables` | Pass configuration values to applications running inside containers. |
+| `Container Runtime` | Software responsible for running containers. |
+| `Restart Policy` | Defines whether a container should restart automatically under specified conditions. |
+| `Health Check` | Checks whether an application inside a container is functioning correctly. |
+| `Volume Driver` | Determines how and where Docker volumes are stored. |
 
 ---
 
@@ -638,12 +638,12 @@ When Docker creates a container from an image, it adds a special layer called th
 
 | Feature | Image Layers | Container Writable Layer |
 |---|---|---|
-| **`Access`** | Read-only | Read/write |
-| **`Created during`** | Image build | Container creation |
-| **`Shared between containers`** | Yes | No, each container has its own |
-| **`Changes`** | Cannot be modified in place | Can be modified |
-| **`Lifetime`** | Until image/layer is removed | Until container is removed |
-| **`Persistence`** | Image persists | Removed with container |
+| `Access` | Read-only | Read/write |
+| `Created during` | Image build | Container creation |
+| `Shared between containers` | Yes | No, each container has its own |
+| `Changes` | Cannot be modified in place | Can be modified |
+| `Lifetime` | Until image/layer is removed | Until container is removed |
+| `Persistence` | Image persists | Removed with container |
 
 ---
 
@@ -658,10 +658,10 @@ There are several important advantages.
 
 | Advantage | Explanation | Example |
 |---|---|---|
-| **`Image Reuse`** | Multiple Docker images can share common base and intermediate layers instead of creating duplicate copies. | Two applications using `ubuntu:22.04` and Nginx can reuse the same existing layers. |
-| **`Faster Image Downloads`** | Docker downloads only the layers that are missing locally instead of downloading the entire image again. | If an image has 5 layers and your machine already has 4, Docker downloads only the remaining 1 layer. |
-| **`Build Caching`** | Docker reuses previously built layers if the Dockerfile instructions and their dependencies haven't changed. | If the Ubuntu and Nginx installation layers are unchanged, Docker can reuse them during the next build. |
-| **`Storage Efficiency`** | Multiple images can share identical layers, reducing duplicate storage on the host machine. | Two application images sharing the same Ubuntu base layer don't need separate copies of that layer. |
+| `Image Reuse` | Multiple Docker images can share common base and intermediate layers instead of creating duplicate copies. | Two applications using `ubuntu:22.04` and Nginx can reuse the same existing layers. |
+| `Faster Image Downloads` | Docker downloads only the layers that are missing locally instead of downloading the entire image again. | If an image has 5 layers and your machine already has 4, Docker downloads only the remaining 1 layer. |
+| `Build Caching` | Docker reuses previously built layers if the Dockerfile instructions and their dependencies haven't changed. | If the Ubuntu and Nginx installation layers are unchanged, Docker can reuse them during the next build. |
+| `Storage Efficiency` | Multiple images can share identical layers, reducing duplicate storage on the host machine. | Two application images sharing the same Ubuntu base layer don't need separate copies of that layer. |
 
 
 #### Summary
@@ -692,40 +692,40 @@ It tells Docker:
 
 | # | Instruction | Description | Example |
 |---|---|---|---|
-| 1 | **`FROM`** | Defines the base image. Every build stage starts with a FROM instruction. | `FROM ubuntu:24.04` |
-| 2 | **`WORKDIR`** | Sets the working directory inside the image. | `WORKDIR /app` |
-| 3 | **`COPY`** | Copies files and directories from the build context into the image. | `COPY . .` |
-| 4 | **`ADD`** | Copies files and supports additional functionality, such as extracting local tar archives. Prefer COPY for ordinary file copying. | `ADD application.tar.gz /app/` |
-| 5 | **`RUN`** | Executes commands during image building. | `RUN apt-get update` |
-| 6 | **`CMD`** | Defines the default command or arguments executed when a container starts. Only the last CMD instruction takes effect. | `CMD ["python", "app.py"]` |
-| 7 | **`ENTRYPOINT`** | Defines the main executable for the container. Can be combined with CMD to provide default arguments. | `ENTRYPOINT ["python"]` |
-| 8 | **`EXPOSE`** | Documents the port on which the application listens. It does not automatically publish the port to the host. | `EXPOSE 8080` |
-| 9 | **`ENV`** | Defines environment variables available in subsequent build instructions and containers. | `ENV APP_ENV=production` |
-| 10 | **`ARG`** | Defines build-time variables that can be passed during image building. | `ARG APP_VERSION=1.0` |
-| 11 | **`USER`** | Specifies the user for subsequent build instructions and the container's default runtime process. | `USER appuser` |
-| 12 | **`LABEL`** | Adds metadata to a Docker image, such as version, author, or description. | `LABEL version="1.0"` |
-| 13 | **`VOLUME`** | Creates a mount point for external or persistent data. | `VOLUME ["/data"]` |
-| 14 | **`HEALTHCHECK`** | Defines a command to check whether the container is functioning correctly. | `HEALTHCHECK CMD curl -f http://localhost/ || exit 1` |
-| 15 | **`ONBUILD`** | Defines an instruction that executes later when another image uses the current image as its base. | `ONBUILD COPY . /app` |
-| 16 | **`STOPSIGNAL`** | Specifies the signal sent to the container when Docker stops it. | `STOPSIGNAL SIGTERM` |
-| 17 | **`SHELL`** | Changes the default shell used by shell-form instructions such as RUN, CMD, and ENTRYPOINT. | `SHELL ["/bin/bash", "-c"]` |
-| 18 | **`MAINTAINER`** | Specifies the image author or maintainer. Deprecated; use LABEL instead. | `MAINTAINER developer@example.com` |
-| 19 | **`#`** (Comment) | Adds comments to a Dockerfile. Comments are ignored during normal instruction processing. | `# Install application dependencies` |
+| 1 | `FROM` | Defines the base image. Every build stage starts with a FROM instruction. | `FROM ubuntu:24.04` |
+| 2 | `WORKDIR` | Sets the working directory inside the image. | `WORKDIR /app` |
+| 3 | `COPY` | Copies files and directories from the build context into the image. | `COPY . .` |
+| 4 | `ADD` | Copies files and supports additional functionality, such as extracting local tar archives. Prefer COPY for ordinary file copying. | `ADD application.tar.gz /app/` |
+| 5 | `RUN` | Executes commands during image building. | `RUN apt-get update` |
+| 6 | `CMD` | Defines the default command or arguments executed when a container starts. Only the last CMD instruction takes effect. | `CMD ["python", "app.py"]` |
+| 7 | `ENTRYPOINT` | Defines the main executable for the container. Can be combined with CMD to provide default arguments. | `ENTRYPOINT ["python"]` |
+| 8 | `EXPOSE` | Documents the port on which the application listens. It does not automatically publish the port to the host. | `EXPOSE 8080` |
+| 9 | `ENV` | Defines environment variables available in subsequent build instructions and containers. | `ENV APP_ENV=production` |
+| 10 | `ARG` | Defines build-time variables that can be passed during image building. | `ARG APP_VERSION=1.0` |
+| 11 | `USER` | Specifies the user for subsequent build instructions and the container's default runtime process. | `USER appuser` |
+| 12 | `LABEL` | Adds metadata to a Docker image, such as version, author, or description. | `LABEL version="1.0"` |
+| 13 | `VOLUME` | Creates a mount point for external or persistent data. | `VOLUME ["/data"]` |
+| 14 | `HEALTHCHECK` | Defines a command to check whether the container is functioning correctly. | `HEALTHCHECK CMD curl -f http://localhost/ || exit 1` |
+| 15 | `ONBUILD` | Defines an instruction that executes later when another image uses the current image as its base. | `ONBUILD COPY . /app` |
+| 16 | `STOPSIGNAL` | Specifies the signal sent to the container when Docker stops it. | `STOPSIGNAL SIGTERM` |
+| 17 | `SHELL` | Changes the default shell used by shell-form instructions such as RUN, CMD, and ENTRYPOINT. | `SHELL ["/bin/bash", "-c"]` |
+| 18 | `MAINTAINER` | Specifies the image author or maintainer. Deprecated; use LABEL instead. | `MAINTAINER developer@example.com` |
+| 19 | `#` (Comment) | Adds comments to a Dockerfile. Comments are ignored during normal instruction processing. | `# Install application dependencies` |
 
 
 #### Notes 
 
-> 1. **`FROM`:** Every build stage must begin with FROM. Global ARG declarations and comments can appear before the first FROM.
-> 2. **`CMD`:** If multiple CMD instructions exist, only the last effective CMD is used.
-> 3. **`EXPOSE`:** Does not automatically publish a container port. Use `-p` with `docker run` to publish it.
-> 4. **`RUN` vs `CMD`:**
+> 1. `FROM`: Every build stage must begin with FROM. Global ARG declarations and comments can appear before the first FROM.
+> 2. `CMD`: If multiple CMD instructions exist, only the last effective CMD is used.
+> 3. `EXPOSE`: Does not automatically publish a container port. Use `-p` with `docker run` to publish it.
+> 4. `RUN` vs `CMD`
 >   - RUN executes commands while building the image.
 >   - CMD defines the default command when starting a container.
-> 5. **`ENTRYPOINT` vs `CMD`:**
+> 5. `ENTRYPOINT` vs `CMD`:
 >   - ENTRYPOINT defines the main executable.
 >   - CMD provides default arguments or a default command.
 >
-> **`MAINTAINER:`** is Deprecated. Use LABEL to specify author or maintainer information.
+> `MAINTAINER:` is Deprecated. Use LABEL to specify author or maintainer information.
 >
 > Example:
 >   `LABEL maintainer="developer@example.com"`
@@ -910,7 +910,7 @@ Application Successfully Running
 
 ### 2.4 Image Building Approaches
 
-Different approaches offers different capabilities related to **`build performance`**, **`caching`**, **`image size`**, **`architecture compatibility`**, and **`build optimization`**.
+Different approaches offers different capabilities related to `build performance`, `caching`, `image size`, `architecture compatibility`, and `build optimization`.
 
 The five important approaches are:
 1. Traditional Docker Builds
@@ -951,7 +951,7 @@ They execute instructions sequentially and use the `build cache` to *reuse previ
 ---
 
 #### 2.4.2 BuildKit Builds
-BuildKit is Docker's **`modern`** build engine designed to improve **`image-building performance`**, **`caching`**, and **`flexibility`**.
+BuildKit is Docker's `modern` build engine designed to improve `image-building performance`, `caching`, and `flexibility`.
 
 Advanced features such as `parallel execution`, `efficient caching`, and improved handling of `build secrets`.
 
@@ -1029,8 +1029,8 @@ STAGE 2: RUNTIME
   Health check + Uvicorn
 ```
 
-* The *builder* stage **prepares dependencies.** 
-* The *runtime* stage contains the **files needed to execute the application.** 
+* The `builder` stage `prepares dependencies`. 
+* The `runtime` stage contains the `files needed to execute the application`. 
 
 ---
 
@@ -1146,11 +1146,11 @@ docker buildx build \
 
 | Approach | Main Purpose | Key Feature |
 |---|---|---|
-| **`Traditional Builds`** | Basic Docker image building. | Standard Docker build process. |
-| **`BuildKit Builds`** | Optimized image building. | Advanced caching and parallel execution. |
-| **`Multi-Stage Builds`** | Reduce final image size. | Separates build and runtime environments. |
-| **`Multi-Platform Builds`** | Support multiple CPU architectures. | Builds AMD64, ARM64, etc. |
-| **`Buildx Builds`** | Advanced image building. | Extended BuildKit capabilities through the CLI. |
+| `Traditional Builds` | Basic Docker image building. | Standard Docker build process. |
+| `BuildKit Builds` | Optimized image building. | Advanced caching and parallel execution. |
+| `Multi-Stage Builds` | Reduce final image size. | Separates build and runtime environments. |
+| `Multi-Platform Builds` | Support multiple CPU architectures. | Builds AMD64, ARM64, etc. |
+| `Buildx Builds` | Advanced image building. | Extended BuildKit capabilities through the CLI. |
 
 ---
 
